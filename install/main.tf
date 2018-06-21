@@ -18,7 +18,7 @@ provider "rabbitmq" {
 }
 
 module "taskcluster" {
-  source                    = "../../taskcluster-terraform"         # TODO: Change this to remote
+  source                    = "github.com/taskcluster/taskcluster-terraform"
   bucket_prefix             = "${var.taskcluster_bucket_prefix}"
   azure_resource_group_name = "${var.azure_resource_group_name}"
   azure_region              = "${var.azure_region}"
