@@ -4,90 +4,67 @@ This is the Taskcluster team's internal terraform configuration for setting up
 the team's clusters. It uses [taskcluster-terraform](https://github.com/taskcluster/taskcluster-terraform) to do most of the work. This is a good project to cargo-cult if you
 wish to set up your own cluster.
 
-## Prereqs
+## Prerequisites
 
-Install the AWS CLI (`aws`), the Azure CLI (`az`), the Google Cloud SDK (`gcloud`) and Kubectl (`kubectl`).
+To run terraform, you will need:
 
-* `. <(pass terraform/taskcluster-mozilla-terraform.sh)`
-* Activate AWS creds with `signin-aws --profile <profile>`
-* Activate Azure creds with `az account get-access-token`
-
-We use the same Azure and GCE credentials for all deployments, so you should not need to change those.
-We use different AWS accounts, so ensure you've selected the right profile for the cluster you wish to apply these settings to.
-
-### Account Setup
-
-The first time, you may need to set up CLI access to all these accounts..
-
-#### AWS
-
-Set up credentials for AWS using `aws configure --profile <profile>`.
-Use [signin-aws](https://gist.github.com/djmitche/80353576a0f389bf130bcb439f63d070) to support signin with an MFA code.
-See [Named Profiles](https://docs.aws.amazon.com/cli/latest/userguide/cli-multiple-profiles.html) for advice on setting up multiple AWS profiles.
-
-#### Azure
-
-The `az login` command will do the initial setup for the Azure account.
-Signin with the shared Azure account.
-Note that this is considered a "personal" account, not business.
-
-**Note: You may need to follow [these instructions](https://www.terraform.io/docs/providers/azurerm/authenticating_via_azure_cli.html) to set the default azure account**
-
-#### GCE
-
-Activate GCE creds with `gcloud auth application-default login`.
-
-Unless you are going to set up the cluster from scratch (see below), run
-
-```shell
-gcloud container clusters get-credentials taskcluster --zone <cluster master zone> --project $TF_VAR_gce_project
-```
-
-to create a kubectl context.
-The project environment variable here was sourced from `terraform/taskcluster-mozilla-terraform.sh`.
-The cluster master zone is available in the gcloud console.
-
-### Terraform Setup
-
-Terraform must be built from source, along with a few providers.
-
-```shell
-mkdir go
-export GOPATH="$PWD/go"
-PATH="$PWD/go/bin:$PATH"
-go version   # needs to be go 1.10.x (don't pay attention to terraform repo's minimum version)
-go get github.com/hashicorp/terraform
-go get golang.org/x/tools/cmd/stringer
-( cd $GOPATH/src/github.com/hashicorp/terraform && make dev )
-```
-
-And install the providers:
-
-```shell
-go get -u github.com/ericchiang/terraform-provider-k8s
-go get -u github.com/taskcluster/terraform-provider-jsone
-```
-
-Note that in any new shells, you will need to set the PATH again:
-```shell
-PATH="$PWD/go/bin:$PATH"
-```
+* Docker
+* Configured passwordstore access to team secrets
+* AWS credentials
+* Azure credentials
+* A Google Cloud account
 
 ## Usage
 
-On the first run of this only, you _must_ first create the kubernetes cluster by:
+Because of the peculiar configuration of terraform used here, the supported way to apply the configuration in the repository is to run terraform in the provided docker image.
+To do so, run
 
-1. In the `setup` directory, you should `../go/bin/terraform init` and `../go/bin/terraform apply`. This will create
-a cluster and allow us to move onto the following steps.
+```shell
+./terraform-runner.sh <deployment>
+```
 
-If you have not yet configured your cluster in kubeconfig or you have set a different default
-cluster context, you can prepare for the following steps.
+where `<deployment>` is the name of the deployment you want to address (e.g., `taskcluster-staging`).
+This will do a fancy dance to set up access to all of the cloud services, and so on.
+Just follow its instructions.
+You will need to extract the appropriate secrets file for the deployment from the team passwordstore repository, and paste that into `~/secrets.sh` when directed to do so.
 
-2. `kubectl config get-contexts`
-3. `kubectl config use-context <cluster context>` -- select the context matching the gcloud cluster from the `get-contexts` list
-4. `kubectl create clusterrolebinding cluster-admin-binding-<your username> --clusterrole cluster-admin --user $(gcloud config get-value account)`
+Most of the credentials (including these secrets) are cached from run to run in a docker volume, limiting the amount of logging-in you will need to do.
 
-Now the final step is all you may need to do on a normal day if you have already done the previous things.
+*CAUTION*: that docker volume thus contains powerful cleartext secrets!
+Docker volumes are readable by anyone with permission to execute `docker run` on a host.
+**DO NOT RUN THIS TOOL ON A SHARED OR UNTRUSTED SYSTEM**
 
-1. Go to the `install` directory and `../go/bin/terraform init` followed by `../go/bin/terraform apply`. This will use your configured kubectl to create resources in your cluster.
-2. Automatically set up cluster-admin-binding stuff. Probably end up with service account for tf instead of users login?
+Once setup is complete, the script drops you in a shell at `/repo`.
+That's a bind mount of the repository where you ran `./terraform-runner.sh`.
+You can run `terraform` as much as you'd like in that docker container.
+You can also use the `kubectl`, `gcloud`, `az`, and `aws` tools from this environment to examine and administer the cluster.
+
+All other work (editing files, etc.) should occur outside of the docker container, as usual.
+
+### Existing Deployments
+
+If a deployment has already been set up, and you just want to modify it, change to the `install` directory.
+The first time around, you will need to run `terraform init` to install all of the various modules.
+Once that succeeds, `terraform plan` and `terraform apply` as usual.
+
+### New Deployments
+
+If a deployment has not been set up, it will not have a Google Cloud
+configuration yet.  In this case, run `terraform init` and `terraform apply` in
+the `setup` directory.
+
+Once the cluster is set up, you will need to run `kubectl create
+clusterrolebinding cluster-admin-binding-<your username> --clusterrole
+cluster-admin --user $(gcloud config get-value account)` to add yourself as an
+admin for the new cluster.
+
+Once that has completed successfully, edit `terraform-runner.sh` appropriately
+to add configuration for the new deployment and re-run it.  Make a push to this
+repository to update the script with the new configuration.
+
+
+## Docker Build
+
+To build the docker image, run `./build.sh`.
+Note that this image is completely nondeterministic and will pull the latest version of everything.
+Caveat ædificator.
