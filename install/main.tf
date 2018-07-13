@@ -18,7 +18,7 @@ provider "rabbitmq" {
 }
 
 module "taskcluster" {
-  source                    = "github.com/taskcluster/taskcluster-terraform"
+  source                    = "../modules/taskcluster-terraform"
   bucket_prefix             = "${var.taskcluster_bucket_prefix}"
   azure_resource_group_name = "${var.azure_resource_group_name}"
   azure_region              = "${var.azure_region}"
