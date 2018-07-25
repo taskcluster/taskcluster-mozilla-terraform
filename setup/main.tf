@@ -34,6 +34,16 @@ resource "google_project_service" "project_kube" {
   service = "container.googleapis.com"
 }
 
+resource "google_project_service" "project_iam" {
+  project = "${var.gce_project}"
+  service = "iam.googleapis.com"
+}
+
+resource "google_project_service" "project_resources" {
+  project = "${var.gce_project}"
+  service = "cloudresourcemanager.googleapis.com"
+}
+
 resource "google_service_account" "kubernetes_cluster" {
   account_id   = "${var.kubernetes_cluster_name}-kube"
   display_name = "Taskcluster Kubernetes cluster service account"
@@ -55,20 +65,22 @@ resource "google_project_iam_member" "cluster_binding_monitoring" {
 }
 
 resource "google_container_cluster" "primary" {
-  depends_on         = [
+  depends_on = [
     "google_project_service.project_kube",
     "google_project_service.project_log",
     "google_project_service.project_monitor",
   ]
-  name               = "${var.kubernetes_cluster_name}"
-  region  = "${var.gce_region}"
+
+  name   = "${var.kubernetes_cluster_name}"
+  region = "${var.gce_region}"
 
   node_pool = [
     {
-      name = "${var.kubernetes_cluster_name}-primary"
+      name       = "${var.kubernetes_cluster_name}-primary"
       node_count = "${var.kubernetes_nodes}"
+
       node_config {
-        machine_type = "n1-standard-4" # TODO: configurable
+        machine_type    = "n1-standard-4"                                      # TODO: configurable
         service_account = "${google_service_account.kubernetes_cluster.email}"
 
         oauth_scopes = [

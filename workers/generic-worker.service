@@ -1,0 +1,16 @@
+[Unit]
+Description=Start Generic Worker
+Requires=generic-worker-key.service
+After=generic-worker-key.service
+
+[Service]
+Type=simple
+User=taskcluster
+WorkingDirectory=/home/taskcluster
+ExecStart=/opt/taskcluster/generic-worker-linux-amd64 run --configure-for-gcp
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=generic-worker
+
+[Install]
+WantedBy=multi-user.target

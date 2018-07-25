@@ -8,6 +8,12 @@ provider "azurerm" {
   version = "~> 1.3.3"
 }
 
+provider "google" {
+  version = "~> 1.17.1"
+  project = "${var.gce_project}"
+  region  = "${var.gce_region}"
+}
+
 provider "k8s" {}
 
 provider "rabbitmq" {
