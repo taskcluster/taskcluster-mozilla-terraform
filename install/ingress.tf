@@ -25,3 +25,19 @@ resource "k8s_manifest" "nginx_ingress" {
   content = "${data.jsone_templates.nginx_ingress.rendered[count.index + 1]}"
   depends_on = ["k8s_manifest.nginx_ingress_namespace"]
 }
+
+// The following are used to set up an letsencrpypt challenge response
+// TODO: Use https://github.com/jetstack/cert-manager to manage staging certs
+
+data "jsone_template" "acme_ingress" {
+  template = "${file("${path.module}/acme_ingress.yaml")}"
+
+  context {
+    challenge_key = "${var.acme_challenge_key}"
+    challenge_value = "${var.acme_challenge_value}"
+  }
+}
+
+resource "k8s_manifest" "acme_ingress" {
+  content = "${data.jsone_template.acme_ingress.rendered}"
+}
