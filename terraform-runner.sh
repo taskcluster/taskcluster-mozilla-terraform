@@ -1,6 +1,6 @@
 #! /bin/bash -e
 
-docker_image="taskcluster/terraform-runner@sha256:a0bd91de143521d4d87e5b34b2df9093224fd75d53a4ddc089dc73edf3a9c499"
+docker_image="taskcluster/terraform-runner@sha256:c845e393de0673e6b8b7802294ef01d5c9e267580cbb1e20a41ad8df8dc92d14"
 deployment="$1"
 
 if [ -z "$deployment" ] || [ ! -f terraform-runner.sh ]; then

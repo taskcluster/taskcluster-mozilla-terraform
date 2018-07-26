@@ -32,7 +32,7 @@ RUN curl -L https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cl
 ENV PATH="${PATH}:/google-cloud-sdk/bin"
 
 # install some random stuff
-RUN apt-get install -y jq
+RUN apt-get install -y jq vim nano
 
 # set up a non-root user (as a uid unlikely to match anyone's host userid)
 RUN useradd -u 1500 -m tf
