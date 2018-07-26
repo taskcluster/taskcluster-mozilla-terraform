@@ -51,6 +51,16 @@ variable "taskcluster_staging_key" {
   description = "Taskcluster staging tls private key."
 }
 
+variable "acme_challenge_key" {
+  type        = "string"
+  description = "acme challenge key in path (for letsencrypt)"
+}
+
+variable "acme_challenge_value" {
+  type        = "string"
+  description = "acme challenge value served with 200 (for letsencrypt)"
+}
+
 variable "rabbitmq_hostname" {
   type        = "string"
   description = "rabbitmq hostname"
