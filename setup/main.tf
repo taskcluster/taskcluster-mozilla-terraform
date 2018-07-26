@@ -54,6 +54,9 @@ resource "google_container_cluster" "primary" {
     kubernetes_dashboard {
       disabled = true
     }
+    http_load_balancing {
+      disabled = true
+    }
   }
 
   node_config {

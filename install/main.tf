@@ -23,8 +23,6 @@ module "taskcluster" {
   azure_resource_group_name = "${var.azure_resource_group_name}"
   azure_region              = "${var.azure_region}"
   root_url                  = "${var.taskcluster_staging_root_url}"
-  tls_crt                   = "${var.taskcluster_staging_crt}"
-  tls_key                   = "${var.taskcluster_staging_key}"
   rabbitmq_hostname         = "${var.rabbitmq_hostname}"
   rabbitmq_vhost            = "${var.rabbitmq_vhost}"
   disabled_services         = ["taskcluster-ping"]

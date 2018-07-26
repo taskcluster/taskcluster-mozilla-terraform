@@ -19,7 +19,7 @@ msg() {
     echo "$color${@}$normal"
 }
 
-msg info "Setting up credenials to run taskcluster-mozilla-terraform for $DEPLOYMENT"
+msg info "Setting up credentials to run taskcluster-mozilla-terraform for $DEPLOYMENT"
 msg info "  -- run '. /setup.sh' if necessary to repeat this setup process"
 
 signin-aws() {

@@ -39,6 +39,8 @@ That's a bind mount of the repository where you ran `./terraform-runner.sh`.
 You can run `terraform` as much as you'd like in that docker container.
 You can also use the `kubectl`, `gcloud`, `az`, and `aws` tools from this environment to examine and administer the cluster.
 
+You must install submodules with `git submodule init` and `git submodule update`. If you wish to udpate to a newer version of the remote, add `--remote` to the second command.
+
 All other work (editing files, etc.) should occur outside of the docker container, as usual.
 
 ### Existing Deployments
