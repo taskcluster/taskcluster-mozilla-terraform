@@ -26,4 +26,5 @@ module "taskcluster" {
   rabbitmq_hostname         = "${var.rabbitmq_hostname}"
   rabbitmq_vhost            = "${var.rabbitmq_vhost}"
   disabled_services         = ["taskcluster-ping"]
+  cluster_name              = "taskcluster staging"
 }

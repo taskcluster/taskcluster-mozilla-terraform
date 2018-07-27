@@ -7,7 +7,6 @@ locals {
     "user:haali@mozilla.com",
     "user:wcosta@mozilla.com",
     "user:coop@mozilla.com",
-    "user:jojensen@mozilla.com",
   ]
 }
 
