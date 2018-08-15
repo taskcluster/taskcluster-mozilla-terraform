@@ -48,6 +48,11 @@ variable "kubernetes_nodes_per_zone" {
   default     = 1
 }
 
+variable "secops_cloudtrail_bucket" {
+  type        = "string"
+  description = "Bucket to which we send cloudtrail logs for secops."
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL PARAMETERS
 # These parameters have reasonable defaults.
