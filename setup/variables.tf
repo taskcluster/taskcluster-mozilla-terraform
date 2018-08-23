@@ -39,7 +39,7 @@ variable "gce_region" {
 variable "kubernetes_cluster_name" {
   type        = "string"
   description = "Name of kubernetes cluster."
-  default     = "taskcluster"
+  default     = "taskcluster-staging"
 }
 
 variable "kubernetes_nodes_per_zone" {

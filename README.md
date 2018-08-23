@@ -55,11 +55,6 @@ If a deployment has not been set up, it will not have a Google Cloud
 configuration yet.  In this case, run `terraform init` and `terraform apply` in
 the `setup` directory.
 
-Once the cluster is set up, you will need to run `kubectl create
-clusterrolebinding cluster-admin-binding-<your username> --clusterrole
-cluster-admin --user $(gcloud config get-value account)` to add yourself as an
-admin for the new cluster.
-
 Once that has completed successfully, edit `terraform-runner.sh` appropriately
 to add configuration for the new deployment and re-run it.  Make a push to this
 repository to update the script with the new configuration.
