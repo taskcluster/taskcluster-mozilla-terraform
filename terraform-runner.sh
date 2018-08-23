@@ -57,8 +57,8 @@ docker+=(-e DEPLOYMENT="$deployment")
 # add arguments based on the deployment (once that deployment is set up)
 case $deployment in
     taskcluster-staging)
-        docker+=(-e GCLOUD_PROJECT=taskcluster-staging-206320)
-        docker+=(-e GCLOUD_CLUSTER=taskcluster)
+        docker+=(-e GCLOUD_PROJECT=taskcluster-staging-214020)
+        docker+=(-e GCLOUD_CLUSTER=taskcluster-staging)
         docker+=(-e GCLOUD_CLUSTER_ZONE=us-east4-a)
         ;;
     *)

@@ -1,0 +1,14 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: taskcluster-admins
+subjects:
+  $map: {$eval: team_members}
+  each(user):
+    kind: User
+    name: ${user[5:]} # This strips the "user:" portion from the name
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
