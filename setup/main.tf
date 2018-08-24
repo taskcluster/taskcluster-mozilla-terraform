@@ -5,7 +5,7 @@ provider "aws" {
 }
 
 provider "google" {
-  version = "~> 1.14"
+  version = "~> 1.17.1"
   project = "${var.gce_project}"
   region  = "${var.gce_region}"
 }
@@ -19,13 +19,19 @@ resource "google_project_service" "project_compute" {
   service = "compute.googleapis.com"
 }
 
+resource "google_project_service" "project_log" {
+  project = "${var.gce_project}"
+  service = "logging.googleapis.com"
+}
+
+resource "google_project_service" "project_monitor" {
+  project = "${var.gce_project}"
+  service = "monitoring.googleapis.com"
+}
+
 resource "google_project_service" "project_kube" {
   project = "${var.gce_project}"
   service = "container.googleapis.com"
-}
-
-data "google_compute_zones" "in_region" {
-  status = "UP"
 }
 
 resource "google_service_account" "kubernetes_cluster" {
@@ -49,14 +55,30 @@ resource "google_project_iam_member" "cluster_binding_monitoring" {
 }
 
 resource "google_container_cluster" "primary" {
-  depends_on         = ["google_project_service.project_kube"]
+  depends_on         = [
+    "google_project_service.project_kube",
+    "google_project_service.project_log",
+    "google_project_service.project_monitor",
+  ]
   name               = "${var.kubernetes_cluster_name}"
-  zone               = "${data.google_compute_zones.in_region.names.0}"
-  initial_node_count = "${var.kubernetes_nodes_per_zone}"
+  region  = "${var.gce_region}"
 
-  additional_zones = [
-    "${data.google_compute_zones.in_region.names.1}",
-    "${data.google_compute_zones.in_region.names.2}",
+  node_pool = [
+    {
+      name = "${var.kubernetes_cluster_name}-primary"
+      node_count = "${var.kubernetes_nodes}"
+      node_config {
+        machine_type = "n1-standard-4" # TODO: configurable
+        service_account = "${google_service_account.kubernetes_cluster.email}"
+
+        oauth_scopes = [
+          "https://www.googleapis.com/auth/compute",
+          "https://www.googleapis.com/auth/devstorage.read_only",
+          "https://www.googleapis.com/auth/logging.write",
+          "https://www.googleapis.com/auth/monitoring",
+        ]
+      }
+    },
   ]
 
   # This is used to _turn off_ basic auth access to the masters
@@ -75,18 +97,7 @@ resource "google_container_cluster" "primary" {
     }
   }
 
-  node_config {
-    service_account = "${google_service_account.kubernetes_cluster.email}"
-
-    oauth_scopes = [
-      "https://www.googleapis.com/auth/compute",
-      "https://www.googleapis.com/auth/devstorage.read_only",
-      "https://www.googleapis.com/auth/logging.write",
-      "https://www.googleapis.com/auth/monitoring",
-    ]
-  }
-
   provisioner "local-exec" {
-    command = "gcloud container clusters get-credentials ${var.kubernetes_cluster_name} --zone ${data.google_compute_zones.in_region.names.0}"
+    command = "gcloud container clusters get-credentials ${var.kubernetes_cluster_name} --region ${var.gce_region}"
   }
 }

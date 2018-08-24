@@ -42,10 +42,10 @@ variable "kubernetes_cluster_name" {
   default     = "taskcluster-staging"
 }
 
-variable "kubernetes_nodes_per_zone" {
+variable "kubernetes_nodes" {
   type        = "string"
-  description = "Number of kubernetes nodes per zone."
-  default     = 1
+  description = "Number of kubernetes nodes in the cluster."
+  default     = 3
 }
 
 variable "secops_cloudtrail_bucket" {
