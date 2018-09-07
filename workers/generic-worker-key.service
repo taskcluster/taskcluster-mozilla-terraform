@@ -1,0 +1,15 @@
+[Unit]
+Description=Generate signing key
+Requires=network-online.target local-fs.target
+After=network-online.target local-fs.target
+
+[Service]
+Type=oneshot
+User=taskcluster
+ExecStart=/opt/taskcluster/generic-worker-linux-amd64 new-openpgp-keypair --file=/home/taskcluster/signing.key
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=generic-worker
+
+[Install]
+WantedBy=multi-user.target

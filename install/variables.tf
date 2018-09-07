@@ -81,6 +81,16 @@ variable "rabbitmq_password" {
   description = "rabbitmq password"
 }
 
+variable "gce_project" {
+  type        = "string"
+  description = "Project in Google Cloud."
+}
+
+variable "gce_region" {
+  type        = "string"
+  description = "Region in Google Cloud."
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL PARAMETERS
 # These parameters have reasonable defaults.

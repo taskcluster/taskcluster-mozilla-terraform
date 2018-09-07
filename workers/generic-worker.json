@@ -1,0 +1,32 @@
+{
+  "builders": [
+    {
+      "type": "googlecompute",
+      "project_id": "taskcluster-staging-214020",
+      "source_image_family": "debian-9",
+      "ssh_username": "packer",
+      "zone": "us-east4-a",
+      "disable_default_service_account": true,
+      "image_family": "taskcluster-generic-worker",
+      "image_name": "taskcluster-generic-worker-debian-9-{{timestamp}}",
+      "image_description": "Taskcluster generic-worker that runs tasks directly on debian 9."
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "generic-worker-key.service",
+      "destination": "/tmp/generic-worker-key.service"
+    },
+    {
+      "type": "file",
+      "source": "generic-worker.service",
+      "destination": "/tmp/generic-worker.service"
+    },
+    {
+      "type": "shell",
+      "script": "./generic-worker-debian-9-provisioning-script.sh",
+      "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
+    }
+  ]
+}
