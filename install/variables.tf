@@ -91,6 +91,41 @@ variable "gce_region" {
   description = "Region in Google Cloud."
 }
 
+variable "notify_ses_arn" {
+  type        = "string"
+  description = "arn of an ses address. This must be manually set up in aws."
+}
+
+variable "irc_name" {
+  type        = "string"
+  description = "username for irc bot."
+}
+
+variable "irc_nick" {
+  type        = "string"
+  description = "nick for irc bot."
+}
+
+variable "irc_real_name" {
+  type        = "string"
+  description = "real name for irc bot."
+}
+
+variable "irc_server" {
+  type        = "string"
+  description = "server for irc bot."
+}
+
+variable "irc_port" {
+  type        = "string"
+  description = "port for irc bot."
+}
+
+variable "irc_password" {
+  type        = "string"
+  description = "password for irc bot."
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL PARAMETERS
 # These parameters have reasonable defaults.

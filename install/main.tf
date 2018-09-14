@@ -33,4 +33,11 @@ module "taskcluster" {
   rabbitmq_vhost            = "${var.rabbitmq_vhost}"
   disabled_services         = ["taskcluster-ping"]
   cluster_name              = "Taskcluster Staging"
+  notify_ses_arn            = "${var.notify_ses_arn}"
+  irc_name                  = "${var.irc_name}"
+  irc_nick                  = "${var.irc_nick}"
+  irc_real_name             = "${var.irc_real_name}"
+  irc_server                = "${var.irc_server}"
+  irc_port                  = "${var.irc_port}"
+  irc_password              = "${var.irc_password}"
 }
