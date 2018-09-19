@@ -126,6 +126,26 @@ variable "irc_password" {
   description = "password for irc bot."
 }
 
+variable "github_integration_id" {
+  type        = "string"
+  description = "taskcluster-github app integration id."
+}
+
+variable "github_oauth_token" {
+  type        = "string"
+  description = "taskcluster-github app oauth token."
+}
+
+variable "github_private_pem" {
+  type        = "string"
+  description = "taskcluster-github private pem."
+}
+
+variable "github_webhook_secret" {
+  type        = "string"
+  description = "taskcluster-github webhook secret."
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL PARAMETERS
 # These parameters have reasonable defaults.
