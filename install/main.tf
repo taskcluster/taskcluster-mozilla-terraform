@@ -44,4 +44,5 @@ module "taskcluster" {
   github_oauth_token        = "${var.github_oauth_token}"
   github_private_pem        = "${var.github_private_pem}"
   github_webhook_secret     = "${var.github_webhook_secret}"
+  audit_log_stream          = "${aws_kinesis_stream.taskcluster_audit_logs.arn}"
 }
