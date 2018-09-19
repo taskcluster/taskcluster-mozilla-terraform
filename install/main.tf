@@ -40,4 +40,8 @@ module "taskcluster" {
   irc_server                = "${var.irc_server}"
   irc_port                  = "${var.irc_port}"
   irc_password              = "${var.irc_password}"
+  github_integration_id     = "${var.github_integration_id}"
+  github_oauth_token        = "${var.github_oauth_token}"
+  github_private_pem        = "${var.github_private_pem}"
+  github_webhook_secret     = "${var.github_webhook_secret}"
 }
