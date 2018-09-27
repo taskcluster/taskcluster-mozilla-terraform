@@ -63,6 +63,8 @@ signin-aws() {
 
 ### Passwordstore
 
+# TODO: remove calculated variables
+
 # the terraform-runner.sh script dumps secrets at ~/secrets.sh, so read that if it exists,
 # but remove it immediately.  If it does not exist but there are TF_VAR variables set,
 # that's OK.
@@ -131,3 +133,8 @@ if [ -n "$GCLOUD_PROJECT" ]; then
 else
     msg warning 'No deployment-specific config defined in terraform-runner.sh; not setting up kubectl'
 fi
+
+### Variables
+
+export TF_VAR_deployment="${DEPLOYMENT}"
+

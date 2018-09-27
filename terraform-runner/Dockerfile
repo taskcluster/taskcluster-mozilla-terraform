@@ -38,10 +38,8 @@ RUN apt-get install -y jq vim nano
 RUN useradd -u 1500 -m tf
 USER tf
 
-ADD setup.sh /setup.sh
-
 # set up the homedir (as required by terraform-runner.sh)
-RUN echo '. /setup.sh' >> /home/tf/.bashrc && \
+RUN echo '. /repo/deployments/setup.sh' >> /home/tf/.bashrc && \
     mkdir -p /home/tf/setup-.terraform && \
     mkdir -p /home/tf/install-.terraform
 
