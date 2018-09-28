@@ -23,7 +23,7 @@ To do so, run
 ./terraform-runner.sh <deployment>
 ```
 
-where `<deployment>` is the name of the deployment you want to address (e.g., `taskcluster-staging`).
+where `<deployment>` is the name of the deployment you want to address (e.g., `taskcluster-staging-net`).
 This will do a fancy dance to set up access to all of the cloud services, and so on.
 Just follow its instructions.
 You will need to extract the appropriate secrets file for the deployment from the team passwordstore repository, and paste that into `~/secrets.sh` when directed to do so.
@@ -52,13 +52,19 @@ Once that succeeds, `terraform plan` and `terraform apply` as usual.
 ### New Deployments
 
 If a deployment has not been set up, it will not have a Google Cloud
-configuration yet.  In this case, run `terraform init` and `terraform apply` in
+configuration yet, nor a Terraform backend.
+
+ * In the AWS
+
+In this case, run `terraform init` and `terraform apply` in
 the `setup` directory.
+
+* In the AWS account, create a bucket named `<deployment>-tfstate`.  Don't sweat the details -- terraform will adjust.
+* Create a new DynamoDB table with table name `<deployment>-tfstate-setup` and primary key `LockID` with type String.
 
 Once that has completed successfully, edit `terraform-runner.sh` appropriately
 to add configuration for the new deployment and re-run it.  Make a push to this
 repository to update the script with the new configuration.
-
 
 ## Docker Build
 
