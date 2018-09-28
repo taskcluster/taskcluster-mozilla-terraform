@@ -11,6 +11,14 @@
 # You must provide a value for each of these parameters.
 # ---------------------------------------------------------------------------------------------------------------------
 
+variable "deployment" {
+  description = "The name of the Taskcluster deployment"
+}
+
+variable "dpl" {
+  description = "The shortened name of the Taskcluster deployment"
+}
+
 variable "aws_region" {
   description = "The AWS region to deploy into (e.g. us-east-1)."
   default     = "us-east-1"

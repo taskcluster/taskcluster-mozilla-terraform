@@ -49,5 +49,38 @@ setup-aws() {
         msg warning 'AWS MFA required'
         signin-aws || return 1
     fi
-    msg info 'AWS setup complete'
+
+    # sanity check this is the correct account
+    local got_account=$(aws sts get-caller-identity | jq -r .Account)
+    if [ "${got_account}" != "${TF_VAR_aws_account}" ]; then
+        msg warn "Those AWS credentials are for the wrong AWS account!"
+        rm -rf ~/.aws
+        setup-aws
+        return
+    fi
+
+    msg info 'AWS credential setup complete'
+
+    # now try to create the resources Terraform needs for its state, if not already done
+    local bucket="${DPL}-tfstate"
+    msg debug "Checking for Terraform state bucket ${bucket}"
+    if ! aws s3 ls "s3://${bucket}" 2>/dev/null >/dev/null; then
+        msg info "Creating Terraform state bucket ${bucket}"
+        aws s3 mb "s3://${bucket}" --region "${TF_VAR_aws_region}"
+    fi
+
+    local table
+    for table in "${DPL}-tfstate-setup" "${DPL}-tfstate-install"; do
+        msg debug "Checking for Terraform state DynamoDB table ${table}"
+        if ! aws dynamodb describe-table --region "${TF_VAR_aws_region}" --table-name "${table}" >/dev/null 2>/dev/null; then
+            msg info "Creating Terraform state DynamoDB table ${table}"
+            aws dynamodb create-table \
+                --table-name "${table}" \
+                --region "${TF_VAR_aws_region}" \
+                --attribute-definitions AttributeName=LockID,AttributeType=S \
+                --key-schema AttributeName=LockID,KeyType=HASH \
+                --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 >/dev/null || \
+                msg error failed to create table
+        fi
+    done
 }

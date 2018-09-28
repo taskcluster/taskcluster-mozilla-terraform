@@ -11,6 +11,7 @@ cd /repo
 source util/msg.sh
 source deployments/lib/secrets.sh
 source deployments/lib/variables.sh
+source deployments/lib/terraform.sh
 source deployments/lib/aws.sh
 source deployments/lib/azure.sh
 source deployments/lib/gcloud.sh
@@ -32,6 +33,7 @@ fi
 setup() {
     setup-secrets
     setup-variables  # defined by the deployment
+    setup-terraform
     setup-azure
     setup-aws
     setup-gcloud

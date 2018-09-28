@@ -26,7 +26,7 @@ To do so, run
 where `<deployment>` is the name of the deployment you want to address (e.g., `taskcluster-staging-net`).
 This will do a fancy dance to set up access to all of the cloud services, and so on.
 Just follow its instructions.
-You will need to extract the appropriate secrets file for the deployment from the team passwordstore repository, and paste that into `~/secrets.sh` when directed to do so.
+You will need to extract the appropriate secrets file for the deployment from the team passwordstore repository, and paste that in when directed to do so.
 
 Most of the credentials (including these secrets) are cached from run to run in a docker volume, limiting the amount of logging-in you will need to do.
 
@@ -39,9 +39,8 @@ That's a bind mount of the repository where you ran `./terraform-runner.sh`.
 You can run `terraform` as much as you'd like in that docker container.
 You can also use the `kubectl`, `gcloud`, `az`, and `aws` tools from this environment to examine and administer the cluster.
 
+All other work (editing files, `git` operations, etc.) should occur outside of the docker container, as usual.
 You must install submodules with `git submodule init` and `git submodule update`. If you wish to udpate to a newer version of the remote, add `--remote` to the second command.
-
-All other work (editing files, etc.) should occur outside of the docker container, as usual.
 
 ### Existing Deployments
 
@@ -51,20 +50,12 @@ Once that succeeds, `terraform plan` and `terraform apply` as usual.
 
 ### New Deployments
 
-If a deployment has not been set up, it will not have a Google Cloud
-configuration yet, nor a Terraform backend.
+To create a new deployment, make a new directory under `deployments` and create a `main.sh` there.
+See the README in `deployments` for more information.
+Ensure that DPL is distinct from any other deployment, or risk creating chaos!
 
- * In the AWS
-
-In this case, run `terraform init` and `terraform apply` in
-the `setup` directory.
-
-* In the AWS account, create a bucket named `<deployment>-tfstate`.  Don't sweat the details -- terraform will adjust.
-* Create a new DynamoDB table with table name `<deployment>-tfstate-setup` and primary key `LockID` with type String.
-
-Once that has completed successfully, edit `terraform-runner.sh` appropriately
-to add configuration for the new deployment and re-run it.  Make a push to this
-repository to update the script with the new configuration.
+Once the deployment is defined, run `terraform init` and `terraform apply` in the `setup` directory.
+Then proceed in the `install` directory as usual.
 
 ## Docker Build
 
