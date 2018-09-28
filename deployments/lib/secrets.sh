@@ -1,4 +1,4 @@
-declare -a SECRETS
+declare -A SECRETS
 
 set-secret() {
     msg debug "Setting secret $1"

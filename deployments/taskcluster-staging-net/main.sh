@@ -11,7 +11,7 @@ setup-variables() {
     export TF_VAR_rabbitmq_password="$(get-secret rabbitmq_password)"
 	export TF_VAR_rabbitmq_vhost="/"
 
-	export TF_VAR_secops_cloudtrail_bucket="moz-cloudtrail-logs"
+    export TF_VAR_secops_cloudtrail_key_prefix="mozilla-taskcluster-staging"
 
     export TF_VAR_acme_challenge_key="$(get-secret acme_challenge_key)"
     export TF_VAR_acme_challenge_value="$(get-secret acme_challenge_value)"

@@ -10,8 +10,8 @@ provider "azurerm" {
 
 provider "google" {
   version = "~> 1.17.1"
-  project = "${var.gce_project}"
-  region  = "${var.gce_region}"
+  project = "${var.gcp_project}"
+  region  = "${var.gcp_region}"
 }
 
 provider "k8s" {}

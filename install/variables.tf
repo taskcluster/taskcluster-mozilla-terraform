@@ -81,12 +81,12 @@ variable "rabbitmq_password" {
   description = "rabbitmq password"
 }
 
-variable "gce_project" {
+variable "gcp_project" {
   type        = "string"
   description = "Project in Google Cloud."
 }
 
-variable "gce_region" {
+variable "gcp_region" {
   type        = "string"
   description = "Region in Google Cloud."
 }

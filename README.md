@@ -55,7 +55,12 @@ See the README in `deployments` for more information.
 Ensure that DPL is distinct from any other deployment, or risk creating chaos!
 
 Once the deployment is defined, run `terraform init` and `terraform apply` in the `setup` directory.
-Then proceed in the `install` directory as usual.
+Once that succeeds, proceed in the `install` directory as usual.
+
+#### Expected Errors
+
+During the setup process, some of the changes take a while to "soak in" at Google, notably the billing settings.
+If you see such errors, simply wait and run `terraform apply` again.
 
 ## Docker Build
 

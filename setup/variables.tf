@@ -21,7 +21,6 @@ variable "dpl" {
 
 variable "aws_region" {
   description = "The AWS region to deploy into (e.g. us-east-1)."
-  default     = "us-east-1"
 }
 
 variable "aws_account" {
@@ -34,12 +33,24 @@ variable "taskcluster_bucket_prefix" {
   description = "The prefix of all s3 buckets needed for a taskcluster cluster to function."
 }
 
-variable "gce_project" {
+variable "gcp_folder_id" {
+  type        = "string"
+  description = "Numeric ID of the folder in which to create the GCP project."
+  // NOTE: available under IAM & admin -> settings; copy out of the URL as the field itself
+  // is un-copyable
+}
+
+variable "gcp_billing_account_id" {
+  type        = "string"
+  description = "Billing account this project should bill to"
+}
+
+variable "gcp_project" {
   type        = "string"
   description = "Project in Google Cloud."
 }
 
-variable "gce_region" {
+variable "gcp_region" {
   type        = "string"
   description = "Region in Google Cloud."
 }
@@ -47,18 +58,21 @@ variable "gce_region" {
 variable "kubernetes_cluster_name" {
   type        = "string"
   description = "Name of kubernetes cluster."
-  default     = "taskcluster-staging"
 }
 
 variable "kubernetes_nodes" {
   type        = "string"
   description = "Number of kubernetes nodes in the cluster."
-  default     = 3
 }
 
 variable "secops_cloudtrail_bucket" {
   type        = "string"
   description = "Bucket to which we send cloudtrail logs for secops."
+}
+
+variable "secops_cloudtrail_key_prefix" {
+  type        = "string"
+  description = "Prefix under which to we send cloudtrail logs for secops."
 }
 
 # ---------------------------------------------------------------------------------------------------------------------

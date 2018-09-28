@@ -15,6 +15,7 @@ source deployments/lib/terraform.sh
 source deployments/lib/aws.sh
 source deployments/lib/azure.sh
 source deployments/lib/gcloud.sh
+source deployments/lib/kube.sh
 
 if [ -z "${DEPLOYMENT}" ] || [ ! -d "deployments/${DEPLOYMENT}" ]; then
     msg error "DEPLOYMENT is not set or not found"
@@ -37,24 +38,7 @@ setup() {
     setup-azure
     setup-aws
     setup-gcloud
-
-    ### Kubernetes TODO
-
-    if [ -n "$GCLOUD_PROJECT" ]; then
-        if ! kubectl get pods >/dev/null 2>&1; then
-            msg debug "setting gcloud project"
-            gcloud config set project "$GCLOUD_PROJECT"
-            msg debug "getting kubectl context"
-            gcloud container clusters get-credentials "$GCLOUD_CLUSTER" --zone "$GCLOUD_CLUSTER_ZONE"
-            # TODO: not sure what to do with the clusterrolebinding??
-        fi
-        msg info 'kubectl context setup complete'
-    else
-        msg warning 'No deployment-specific config defined in terraform-runner.sh; not setting up kubectl'
-    fi
-
-    ### Variables
-
+    setup-kube
 }
 
 setup
