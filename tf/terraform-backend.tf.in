@@ -1,0 +1,12 @@
+# NOTE: this file is processed with sed, replacing <DPL> and <REGION>
+terraform {
+  backend "s3" {
+    bucket         = "<DPL>-tfstate"
+    key            = "<DPL>-tfstate"
+
+    dynamodb_table = "<DPL>-tfstate"
+
+    region         = "<REGION>"
+    encrypt        = true
+  }
+}

@@ -20,18 +20,15 @@ if [ ! -d "deployments/${deployment}" ]; then
 fi
 
 
-for terraform_dir in install setup; do
-    # the docker image wants to write to the .terraform directory, so
-    # make it a link to a directory it can write to.  Note that these
-    # directories must be created by the Dockerfile!
-    rm -rf $terraform_dir/.terraform
-    ln -s /home/tf/${terraform_dir}-.terraform $terraform_dir/.terraform
+# the docker image wants to write to the .terraform directory, so
+# make it a link to a directory it can write to.
+rm -rf tf/.terraform
+ln -s /home/tf/dot-terraform tf/.terraform
 
-    # similarly, setup-terraform writes to terraform-backend.tf, so we
-    # symlink that to a writeable location
-    rm -f $terraform_dir/terraform-backend.tf
-    ln -s /home/tf/${terraform_dir}-backend.tf $terraform_dir/terraform-backend.tf
-done
+# similarly, setup-terraform writes to terraform-backend.tf, so we
+# symlink that to a writeable location
+rm -f tf/terraform-backend.tf
+ln -s /home/tf/terraform-backend.tf tf/terraform-backend.tf
 
 ## Build a docker create command-line and execute it
 

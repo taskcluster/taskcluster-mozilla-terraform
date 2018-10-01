@@ -70,21 +70,18 @@ setup-aws() {
         # note that terraform can adopt this without 'terraform import'
     fi
 
-    local terraform_dir
-    for terraform_dir in setup install; do
-        local table="${DPL}-tfstate-${terraform_dir}"
-        msg debug "Checking for Terraform state DynamoDB table ${table}"
-        if ! aws dynamodb describe-table --region "${TF_VAR_aws_region}" --table-name "${table}" >/dev/null 2>/dev/null; then
-            msg info "Creating Terraform state DynamoDB table ${table}"
-            aws dynamodb create-table \
-                --table-name "${table}" \
-                --region "${TF_VAR_aws_region}" \
-                --attribute-definitions AttributeName=LockID,AttributeType=S \
-                --key-schema AttributeName=LockID,KeyType=HASH \
-                --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 >/dev/null || \
-                msg error failed to create table
-            msg warn "you must run the following in ${terraform_dir}:"
-            msg warn " terraform import aws_dynamodb_table.dynamodb_tfstate_lock ${DPL}-tfstate-${terraform_dir}"
-        fi
-    done
+    local table="${DPL}-tfstate"
+    msg debug "Checking for Terraform state DynamoDB table ${table}"
+    if ! aws dynamodb describe-table --region "${TF_VAR_aws_region}" --table-name "${table}" >/dev/null 2>/dev/null; then
+        msg info "Creating Terraform state DynamoDB table ${table}"
+        aws dynamodb create-table \
+            --table-name "${table}" \
+            --region "${TF_VAR_aws_region}" \
+            --attribute-definitions AttributeName=LockID,AttributeType=S \
+            --key-schema AttributeName=LockID,KeyType=HASH \
+            --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 >/dev/null || \
+            msg error failed to create table
+        msg warn "you must run the following in tf/ to import the state management:"
+        msg warn " terraform import aws_dynamodb_table.dynamodb_tfstate_lock ${table}"
+    fi
 }

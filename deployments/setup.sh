@@ -42,3 +42,5 @@ setup() {
 }
 
 setup
+
+cd /repo/tf

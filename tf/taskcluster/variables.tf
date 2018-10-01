@@ -1,19 +1,18 @@
-# ---------------------------------------------------------------------------------------------------------------------
-# ENVIRONMENT VARIABLES
-# Define these secrets as environment variables
-# ---------------------------------------------------------------------------------------------------------------------
+variable "deployment" {
+  description = "The name of the Taskcluster deployment"
+}
 
-# AWS_ACCESS_KEY_ID
-# AWS_SECRET_ACCESS_KEY
+variable "dpl" {
+  description = "The shortened name of the Taskcluster deployment"
+}
 
-# ---------------------------------------------------------------------------------------------------------------------
-# REQUIRED PARAMETERS
-# You must provide a value for each of these parameters.
-# ---------------------------------------------------------------------------------------------------------------------
+variable "cluster_name" {
+  type        = "string"
+  description = "Human readable cluster name"
+}
 
 variable "aws_region" {
   description = "The AWS region to deploy into (e.g. us-east-1)."
-  default     = "us-east-1"
 }
 
 variable "aws_account" {
@@ -21,34 +20,24 @@ variable "aws_account" {
   description = "The aws account you are operating on. Set this to avoid changing other accounts."
 }
 
-variable "taskcluster_bucket_prefix" {
-  type        = "string"
-  description = "The prefix of all s3 buckets needed for a taskcluster cluster to function."
-}
-
-variable "azure_resource_group_name" {
-  type        = "string"
-  description = "Name of azure storage resource group."
-}
-
 variable "azure_region" {
   type        = "string"
   description = "Region of azure storage."
 }
 
-variable "taskcluster_staging_root_url" {
+variable "root_url" {
   type        = "string"
   description = "Taskcluster rootUrl."
 }
 
-variable "taskcluster_staging_crt" {
+variable "root_url_tls_crt" {
   type        = "string"
-  description = "Taskcluster staging tls certificate."
+  description = "TLS certificate for the rootUrl."
 }
 
-variable "taskcluster_staging_key" {
+variable "root_url_tls_key" {
   type        = "string"
-  description = "Taskcluster staging tls private key."
+  description = "TLS key for the rootUrl."
 }
 
 variable "acme_challenge_key" {
@@ -145,9 +134,3 @@ variable "github_webhook_secret" {
   type        = "string"
   description = "taskcluster-github webhook secret."
 }
-
-# ---------------------------------------------------------------------------------------------------------------------
-# OPTIONAL PARAMETERS
-# These parameters have reasonable defaults.
-# ---------------------------------------------------------------------------------------------------------------------
-

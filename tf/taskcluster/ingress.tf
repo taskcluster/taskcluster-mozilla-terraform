@@ -2,8 +2,8 @@ data "template_file" "tls_secret" {
   template = "${file("${path.module}/tls_secret.yaml")}"
 
   vars {
-    tls_crt = "${var.taskcluster_staging_crt}"
-    tls_key = "${var.taskcluster_staging_key}"
+    tls_crt = "${var.root_url_tls_crt}"
+    tls_key = "${var.root_url_tls_key}"
   }
 }
 
@@ -27,7 +27,7 @@ resource "k8s_manifest" "nginx_ingress" {
 }
 
 // The following are used to set up an letsencrpypt challenge response
-// TODO: Use https://github.com/jetstack/cert-manager to manage staging certs
+// TODO: Optionally use https://github.com/jetstack/cert-manager to manage certs
 
 data "jsone_template" "acme_ingress" {
   template = "${file("${path.module}/acme_ingress.yaml")}"

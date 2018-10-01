@@ -23,7 +23,7 @@ resource "aws_s3_bucket" "tfstate_bucket" {
 }
 
 resource "aws_dynamodb_table" "dynamodb_tfstate_lock" {
-  name           = "${var.dpl}-tfstate-setup"
+  name           = "${var.dpl}-tfstate"
   hash_key       = "LockID"
   read_capacity  = 1
   write_capacity = 1

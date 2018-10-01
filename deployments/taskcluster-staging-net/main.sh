@@ -11,12 +11,10 @@ setup-variables() {
     export TF_VAR_rabbitmq_password="$(get-secret rabbitmq_password)"
 	export TF_VAR_rabbitmq_vhost="/"
 
-    export TF_VAR_secops_cloudtrail_key_prefix="mozilla-taskcluster-staging"
-
     export TF_VAR_acme_challenge_key="$(get-secret acme_challenge_key)"
     export TF_VAR_acme_challenge_value="$(get-secret acme_challenge_value)"
 
-	export TF_VAR_taskcluster_staging_root_url="https://taskcluster-staging.net"
+	export TF_VAR_root_url="https://taskcluster-staging.net"
 
 	export TF_VAR_irc_name="taskcluster|staging"
 	export TF_VAR_irc_nick="taskcluster|staging"
@@ -30,6 +28,6 @@ setup-variables() {
     export TF_VAR_github_webhook_secret="$(get-secret github_webhook_secret)"
     export TF_VAR_github_private_pem="$(get-secret github_private_pem)"
 
-    export TF_VAR_taskcluster_staging_crt="$(get-secret taskcluster_staging_crt)"
-    export TF_VAR_taskcluster_staging_key="$(get-secret taskcluster_staging_key)"
+    export TF_VAR_root_url_tls_crt="$(get-secret root_url_tls_crt)"
+    export TF_VAR_root_url_tls_key="$(get-secret root_url_tls_key)"
 }

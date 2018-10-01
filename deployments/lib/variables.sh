@@ -7,15 +7,10 @@ setup-common-variables() {
 
     ## AWS
 
-    export TF_VAR_taskcluster_bucket_prefix="${DPL}"
     export TF_VAR_aws_region="us-east-1"
-
-	export TF_VAR_secops_cloudtrail_bucket="moz-cloudtrail-logs"
-    export TF_VAR_secops_cloudtrail_key_prefix="mozilla-taskcluster-${DPL}"
 
     ## Azure
 
-    export TF_VAR_azure_resource_group_name="${DPL}"
     export TF_VAR_azure_region="eastus"
 
     ## GCP
@@ -29,4 +24,13 @@ setup-common-variables() {
 
     export TF_VAR_kubernetes_cluster_name=taskcluster
     export TF_VAR_kubernetes_nodes=2  # default
+
+    ## Mozilla
+
+    export TF_VAR_secops_cloudtrail="0"
+    export TF_VAR_secops_cloudtrail_bucket=""
+
+    ## Taskcluster
+
+    export TF_VAR_cluster_name="${DEPLOYMENT}"
 }

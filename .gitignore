@@ -4,4 +4,5 @@ terraform.tfvars
 .terraform
 go/
 setup/terraform-backend.tf
+tf/terraform-backend.tf
 install/terraform-backend.tf

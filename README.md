@@ -44,9 +44,9 @@ You must install submodules with `git submodule init` and `git submodule update`
 
 ### Existing Deployments
 
-If a deployment has already been set up, and you just want to modify it, change to the `install` directory.
-The first time around, you will need to run `terraform init` to install all of the various modules.
+The first time you run terraform for a deployment, you will need to run `terraform init` to install all of the various modules.
 Once that succeeds, `terraform plan` and `terraform apply` as usual.
+If you have not modified anything in the `gke` module, you can go a little faster by adding `-target taskcluster`.
 
 ### New Deployments
 
@@ -54,8 +54,11 @@ To create a new deployment, make a new directory under `deployments` and create 
 See the README in `deployments` for more information.
 Ensure that DPL is distinct from any other deployment, or risk creating chaos!
 
-Once the deployment is defined, run `terraform init` and `terraform apply` in the `setup` directory.
-Once that succeeds, proceed in the `install` directory as usual.
+Once the deployment is defined, run `terraform init` and `terraform apply -target module.gke`.
+Once that succeeds, proceed with `terraform apply` as for an existing deployment.
+
+This is necessary to set up the GKE environment before trying to create Kubernetes resources.
+Terraform's dependencies are not expressive enough to capture this.
 
 #### Expected Errors
 

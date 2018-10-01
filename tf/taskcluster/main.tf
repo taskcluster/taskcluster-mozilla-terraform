@@ -24,15 +24,14 @@ provider "rabbitmq" {
 }
 
 module "taskcluster" {
-  source                    = "../modules/taskcluster-terraform"
-  bucket_prefix             = "${var.taskcluster_bucket_prefix}"
-  azure_resource_group_name = "${var.azure_resource_group_name}"
+  source                    = "../../modules/taskcluster-terraform"
+  prefix                    = "${var.dpl}"
   azure_region              = "${var.azure_region}"
-  root_url                  = "${var.taskcluster_staging_root_url}"
+  root_url                  = "${var.root_url}"
   rabbitmq_hostname         = "${var.rabbitmq_hostname}"
   rabbitmq_vhost            = "${var.rabbitmq_vhost}"
   disabled_services         = ["taskcluster-ping"]
-  cluster_name              = "Taskcluster Staging"
+  cluster_name              = "${var.cluster_name}"
   notify_ses_arn            = "${var.notify_ses_arn}"
   irc_name                  = "${var.irc_name}"
   irc_nick                  = "${var.irc_nick}"
