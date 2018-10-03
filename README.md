@@ -46,7 +46,7 @@ You must install submodules with `git submodule init` and `git submodule update`
 
 The first time you run terraform for a deployment, you will need to run `terraform init` to install all of the various modules.
 Once that succeeds, `terraform plan` and `terraform apply` as usual.
-If you have not modified anything in the `gke` module, you can go a little faster by adding `-target taskcluster`.
+If you have not modified anything in the `gke` module, you can go a little faster by adding `-target module.taskcluster`.
 
 ### New Deployments
 
