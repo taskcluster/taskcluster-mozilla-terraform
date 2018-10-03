@@ -13,14 +13,14 @@ locals {
 
 resource "google_project_iam_member" "team_members" {
   project = "${google_project.project.id}"
-  role   = "roles/editor"
-  count  = "${length(local.team_members)}"
-  member = "${local.team_members[count.index]}"
+  role    = "roles/editor"
+  count   = "${length(local.team_members)}"
+  member  = "${local.team_members[count.index]}"
 }
 
 resource "google_project_iam_member" "team_members_cluster_admin" {
   project = "${google_project.project.id}"
-  role   = "roles/container.admin"
-  count  = "${length(local.team_members)}"
-  member = "${local.team_members[count.index]}"
+  role    = "roles/container.admin"
+  count   = "${length(local.team_members)}"
+  member  = "${local.team_members[count.index]}"
 }

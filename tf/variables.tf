@@ -31,6 +31,7 @@ variable "aws_account" {
 variable "gcp_folder_id" {
   type        = "string"
   description = "Numeric ID of the folder in which to create the GCP project."
+
   // NOTE: available under IAM & admin -> settings; copy out of the URL as the field itself
   // is un-copyable
 }
@@ -179,4 +180,3 @@ variable "github_webhook_secret" {
   type        = "string"
   description = "taskcluster-github webhook secret."
 }
-

@@ -1,7 +1,7 @@
 resource "google_project" "project" {
-  name = "${var.gcp_project}"
-  project_id = "${var.gcp_project}"
-  folder_id = "${var.gcp_folder_id}"
+  name            = "${var.gcp_project}"
+  project_id      = "${var.gcp_project}"
+  folder_id       = "${var.gcp_folder_id}"
   billing_account = "${var.gcp_billing_account_id}"
 }
 
@@ -36,26 +36,26 @@ resource "google_project_service" "project_resources" {
 }
 
 resource "google_service_account" "kubernetes_cluster" {
-  project = "${google_project.project.id}"
+  project      = "${google_project.project.id}"
   account_id   = "${var.kubernetes_cluster_name}-kube"
   display_name = "Taskcluster Kubernetes cluster service account"
-  depends_on = ["google_project_service.project_kube"]
+  depends_on   = ["google_project_service.project_kube"]
 }
 
 resource "google_project_iam_member" "cluster_binding_logging" {
   project = "${google_project.project.id}"
-  member = "serviceAccount:${google_service_account.kubernetes_cluster.email}"
-  role   = "roles/logging.logWriter"
+  member  = "serviceAccount:${google_service_account.kubernetes_cluster.email}"
+  role    = "roles/logging.logWriter"
 }
 
 resource "google_project_iam_member" "cluster_binding_metrics" {
   project = "${google_project.project.id}"
-  member = "serviceAccount:${google_service_account.kubernetes_cluster.email}"
-  role   = "roles/monitoring.metricWriter"
+  member  = "serviceAccount:${google_service_account.kubernetes_cluster.email}"
+  role    = "roles/monitoring.metricWriter"
 }
 
 resource "google_project_iam_member" "cluster_binding_monitoring" {
   project = "${google_project.project.id}"
-  member = "serviceAccount:${google_service_account.kubernetes_cluster.email}"
-  role   = "roles/monitoring.viewer"
+  member  = "serviceAccount:${google_service_account.kubernetes_cluster.email}"
+  role    = "roles/monitoring.viewer"
 }

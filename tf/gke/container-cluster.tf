@@ -8,6 +8,7 @@ data "jsone_template" "admin_bindings" {
 
 resource "google_container_cluster" "primary" {
   project = "${google_project.project.id}"
+
   depends_on = [
     "google_project_service.project_kube",
     "google_project_service.project_log",
@@ -40,6 +41,7 @@ resource "google_container_cluster" "primary" {
   master_auth {
     username = ""
     password = ""
+
     client_certificate_config {
       issue_client_certificate = false
     }
@@ -65,4 +67,3 @@ resource "k8s_manifest" "admin_bindings" {
   depends_on = ["google_container_cluster.primary"]
   content    = "${data.jsone_template.admin_bindings.rendered}"
 }
-

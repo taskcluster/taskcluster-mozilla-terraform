@@ -115,7 +115,7 @@ resource "aws_kinesis_firehose_delivery_stream" "taskcluster_audit_logs_firehose
 
   kinesis_source_configuration {
     kinesis_stream_arn = "${aws_kinesis_stream.taskcluster_audit_logs.arn}"
-    role_arn = "${aws_iam_role.taskcluster_audit_logs_firehose.arn}"
+    role_arn           = "${aws_iam_role.taskcluster_audit_logs_firehose.arn}"
   }
 
   extended_s3_configuration {
