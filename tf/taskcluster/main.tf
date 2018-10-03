@@ -1,28 +1,3 @@
-provider "aws" {
-  version             = "~> 1.15"
-  region              = "${var.aws_region}"
-  allowed_account_ids = ["${var.aws_account}"]
-}
-
-provider "azurerm" {
-  version = "~> 1.3.3"
-}
-
-provider "google" {
-  version = "~> 1.17.1"
-  project = "${var.gcp_project}"
-  region  = "${var.gcp_region}"
-}
-
-provider "k8s" {}
-
-provider "rabbitmq" {
-  version  = "~> 1.0"
-  endpoint = "https://${var.rabbitmq_hostname}"
-  username = "${var.rabbitmq_username}"
-  password = "${var.rabbitmq_password}"
-}
-
 module "taskcluster" {
   source                = "../../modules/taskcluster-terraform"
   prefix                = "${var.dpl}"

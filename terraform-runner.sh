@@ -25,10 +25,12 @@ fi
 rm -rf tf/.terraform
 ln -s /home/tf/dot-terraform tf/.terraform
 
-# similarly, setup-terraform writes to terraform-backend.tf, so we
-# symlink that to a writeable location
-rm -f tf/terraform-backend.tf
-ln -s /home/tf/terraform-backend.tf tf/terraform-backend.tf
+# similarly, setup-terraform writes to some tf files, so we
+# symlink those to a writeable location
+for f in terraform-backend.tf providers.tf; do
+    rm -f tf/$f
+    ln -s /home/tf/$f tf/$f
+done
 
 ## Build a docker create command-line and execute it
 
