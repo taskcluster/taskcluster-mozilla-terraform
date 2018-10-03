@@ -3,3 +3,5 @@ terraform.tfstate*
 terraform.tfvars
 .terraform
 go/
+tf/terraform-backend.tf
+tf/providers.tf
