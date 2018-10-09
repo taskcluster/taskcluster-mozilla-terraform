@@ -1,3 +1,11 @@
+data "jsone_template" "ingress_namespace" {
+  template = "${file("${path.module}/ingress_namespace.yaml")}"
+}
+
+resource "k8s_manifest" "ingress_namespace" {
+  content = "${data.jsone_template.ingress_namespace.rendered}"
+}
+
 data "template_file" "tls_secret" {
   template = "${file("${path.module}/tls_secret.yaml")}"
 
@@ -9,21 +17,17 @@ data "template_file" "tls_secret" {
 
 resource "k8s_manifest" "tls_secrets" {
   content = "${data.template_file.tls_secret.rendered}"
+  depends_on = ["k8s_manifest.ingress_namespace"]
 }
 
-data "jsone_templates" "nginx_ingress" {
-  template = "${file("${path.module}/nginx_ingress.yaml")}"
+data "jsone_templates" "ingress_controller" {
+  template = "${file("${path.module}/ingress_controller.yaml")}"
 }
 
-// This must come before nginx_ingress below
-resource "k8s_manifest" "nginx_ingress_namespace" {
-  content = "${data.jsone_templates.nginx_ingress.rendered[0]}"
-}
-
-resource "k8s_manifest" "nginx_ingress" {
-  count      = "${length(data.jsone_templates.nginx_ingress.rendered) - 1}"
-  content    = "${data.jsone_templates.nginx_ingress.rendered[count.index + 1]}"
-  depends_on = ["k8s_manifest.nginx_ingress_namespace"]
+resource "k8s_manifest" "ingress_controller" {
+  count      = "${length(data.jsone_templates.ingress_controller.rendered)}"
+  content    = "${data.jsone_templates.ingress_controller.rendered[count.index]}"
+  depends_on = ["k8s_manifest.ingress_namespace"]
 }
 
 // The following are used to set up an letsencrpypt challenge response
@@ -39,6 +43,5 @@ data "jsone_template" "acme_ingress" {
 }
 
 resource "k8s_manifest" "acme_ingress" {
-  depends_on = ["k8s_manifest.nginx_ingress"]
   content    = "${data.jsone_template.acme_ingress.rendered}"
 }
