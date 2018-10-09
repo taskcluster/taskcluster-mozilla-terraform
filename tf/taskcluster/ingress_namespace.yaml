@@ -1,0 +1,8 @@
+# The nginx-ingress-controller doesn't work without its own namespace.  Note that
+# roles apply only to a single namespace, so this serves to limit the access
+# that the controller has.
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ingress-controller
