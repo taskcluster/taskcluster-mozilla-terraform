@@ -55,6 +55,7 @@ See the README in `deployments` for more information.
 Ensure that DPL is distinct from any other deployment, or risk creating chaos!
 
 Once the deployment is defined, run `terraform init` and `terraform apply -target module.gke`.
+You will probably also need to run a `terraform import` command as suggested by the setup script.
 Once that succeeds, proceed with `terraform apply` as for an existing deployment.
 
 This is necessary to set up the GKE environment before trying to create Kubernetes resources.
