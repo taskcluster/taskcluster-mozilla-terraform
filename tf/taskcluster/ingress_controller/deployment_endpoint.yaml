@@ -1,0 +1,19 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: deployment-endpoint
+  namespace: ingress-controller
+  labels:
+    app: ingress-controller
+spec:
+  externalTrafficPolicy: Local
+  type: LoadBalancer
+  selector:
+    app: ingress-controller
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+  - name: https
+    port: 443
+    targetPort: https
