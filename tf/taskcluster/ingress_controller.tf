@@ -6,20 +6,6 @@ resource "k8s_manifest" "ingress_controller_namespace" {
   content = "${data.jsone_template.ingress_controller_namespace.rendered}"
 }
 
-data "template_file" "taskcluster_ingress_tls_secret" {
-  template = "${file("${path.module}/ingress_controller/taskcluster_ingress_tls_secret.yaml")}"
-
-  vars {
-    tls_crt = "${var.root_url_tls_crt}"
-    tls_key = "${var.root_url_tls_key}"
-  }
-}
-
-resource "k8s_manifest" "taskcluster_ingress_tls_secret" {
-  content    = "${data.template_file.taskcluster_ingress_tls_secret.rendered}"
-  depends_on = ["k8s_manifest.ingress_controller_namespace"]
-}
-
 data "jsone_template" "nginx_configuration" {
   template = "${file("${path.module}/ingress_controller/nginx_configuration.yaml")}"
 }
@@ -47,12 +33,12 @@ resource "k8s_manifest" "udp_services" {
   depends_on = ["k8s_manifest.ingress_controller_namespace"]
 }
 
-data "jsone_template" "serviceaccount" {
+data "jsone_template" "ingress_controller_serviceaccount" {
   template = "${file("${path.module}/ingress_controller/serviceaccount.yaml")}"
 }
 
-resource "k8s_manifest" "serviceaccount" {
-  content    = "${data.jsone_template.serviceaccount.rendered}"
+resource "k8s_manifest" "ingress_controller_serviceaccount" {
+  content    = "${data.jsone_template.ingress_controller_serviceaccount.rendered}"
   depends_on = ["k8s_manifest.ingress_controller_namespace"]
 }
 
@@ -110,18 +96,61 @@ resource "k8s_manifest" "deployment_endpoint" {
   depends_on = ["k8s_manifest.ingress_controller_namespace"]
 }
 
-// The following are used to set up an letsencrpypt challenge response
-// TODO: Optionally use https://github.com/jetstack/cert-manager to manage certs
+##
+# Certificate Management with Cert-Manager (LetsEncrypt)
+#
+# This must be in the same namespace as the ingress controller, so that
+# the ingress controller can access the TLS secret.
 
-data "jsone_template" "acme_ingress" {
-  template = "${file("${path.module}/acme_ingress.yaml")}"
+# set up an ingress for cert-manager to manage
 
-  context {
-    challenge_key   = "${var.acme_challenge_key}"
-    challenge_value = "${var.acme_challenge_value}"
+data "jsone_template" "certificate_challenge_ingress" {
+  template = "${file("${path.module}/ingress_controller/ingress.yaml")}"
+
+  context = {
+    root_url = "${var.root_url}"
   }
 }
 
-resource "k8s_manifest" "acme_ingress" {
-  content = "${data.jsone_template.acme_ingress.rendered}"
+resource "k8s_manifest" "certificate_challenge_ingress" {
+  content    = "${data.jsone_template.certificate_challenge_ingress.rendered}"
+  depends_on = ["k8s_manifest.ingress_controller_namespace"]
+
+  lifecycle {
+    # cert-manager will modify this out from under us, so ignore those changes
+    ignore_changes = ["content"]
+  }
+}
+
+# a ClusterIssuer to issue certificates
+
+data "jsone_template" "certificate_clusterissuer" {
+  template = "${file("${path.module}/ingress_controller/clusterissuer.yaml")}"
+}
+
+resource "k8s_manifest" "certificate_clusterissuer" {
+  content = "${data.jsone_template.certificate_clusterissuer.rendered}"
+
+  depends_on = [
+    "k8s_manifest.cert_manager_clusterissuer_crd",
+    "k8s_manifest.ingress_controller_namespace",
+  ]
+}
+
+# ..and the certificate itself
+
+data "jsone_template" "ingress_controller_certificate" {
+  template = "${file("${path.module}/ingress_controller/certificate.yaml")}"
+
+  context = {
+    root_url = "${var.root_url}"
+  }
+}
+
+resource "k8s_manifest" "ingress_controller_certificate" {
+  content    = "${data.jsone_template.ingress_controller_certificate.rendered}"
+  depends_on = [
+    "k8s_manifest.cert_manager_clusterissuer_crd",
+    "k8s_manifest.ingress_controller_namespace",
+  ]
 }

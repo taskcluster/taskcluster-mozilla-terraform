@@ -30,16 +30,6 @@ variable "root_url" {
   description = "Taskcluster rootUrl."
 }
 
-variable "root_url_tls_crt" {
-  type        = "string"
-  description = "TLS certificate for the rootUrl."
-}
-
-variable "root_url_tls_key" {
-  type        = "string"
-  description = "TLS key for the rootUrl."
-}
-
 variable "acme_challenge_key" {
   type        = "string"
   description = "acme challenge key in path (for letsencrypt)"

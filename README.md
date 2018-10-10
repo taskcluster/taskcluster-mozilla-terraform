@@ -61,12 +61,24 @@ Once that succeeds, proceed with `terraform apply` as for an existing deployment
 This is necessary to set up the GKE environment before trying to create Kubernetes resources.
 Terraform's dependencies are not expressive enough to capture this.
 
-#### Expected Errors
+#### DNS/TLS Setup
 
-During the setup process, some of the changes take a while to "soak in" at Google, notably the billing settings.
-If you see such errors, simply wait and run `terraform apply` again.
+Once everything is applied, run
 
-## Docker Build
+```shell
+kubectl get service --namespace ingress-controller deployment-endpoint
+```
+
+the "EXTERNAL-IP" field is the IP of your deployment.
+It's up to you to configure the DNS for your root URL domain name to point to this IP.
+
+Once you do so, you will find that loading the *http* version of your rootUrl will get you some results.
+However, *https* may take some time to start working (and https is technically required, so the cluster won't work correctly until this is done).
+The cert-manager service is operating in the background to set up a certificate with LetsEncrypt, and once it does so, https URLs will work and http URLs will redirect to https.
+
+Your deployment is ready to go!
+
+## Terraform-runner Docker Build
 
 To build the docker image, run `./build.sh`.
 Note that this image is completely nondeterministic and will pull the latest version of everything.
