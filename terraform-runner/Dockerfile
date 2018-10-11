@@ -2,9 +2,12 @@ FROM golang:1.10.3-stretch
 
 # Install terraform + providers, latest versions,
 # then clean up go source (300M) and GOROOT (500M)
+# Note that terraform build fails on non-fmt'd code, but
+# very often the latest code is not correctly formatted.
 RUN go get github.com/hashicorp/terraform && \
     go get golang.org/x/tools/cmd/stringer && \
     cd $GOPATH/src/github.com/hashicorp/terraform && \
+    make fmt && \
     make dev && \
     go get -u github.com/ericchiang/terraform-provider-k8s && \
     go get -u github.com/taskcluster/terraform-provider-jsone && \
