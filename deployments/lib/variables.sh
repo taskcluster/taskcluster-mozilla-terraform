@@ -34,3 +34,9 @@ setup-common-variables() {
 
     export TF_VAR_cluster_name="${DEPLOYMENT}"
 }
+
+check-variables() {
+    if [ "${TF_VAR_root_url%%/}" != "${TF_VAR_root_url}" ]; then
+        msg error "Root URL (${TF_VAR_root_url}) ends in a slash -- that's not allowed"
+    fi
+}

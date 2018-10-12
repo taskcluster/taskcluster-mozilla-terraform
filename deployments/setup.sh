@@ -34,6 +34,7 @@ fi
 setup() {
     setup-secrets
     setup-variables  # defined by the deployment
+    check-variables
     setup-terraform
     setup-azure
     setup-aws
