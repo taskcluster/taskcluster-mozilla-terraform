@@ -16,6 +16,13 @@ To run terraform, you will need:
 
 ## Usage
 
+First, don't forget to update submodules:
+
+```shell
+git submodule init
+git submodule update
+```
+
 Because of the peculiar configuration of terraform used here, the supported way to apply the configuration in the repository is to run terraform in the provided docker image.
 To do so, run
 
@@ -42,24 +49,37 @@ You can also use the `kubectl`, `gcloud`, `az`, and `aws` tools from this enviro
 All other work (editing files, `git` operations, etc.) should occur outside of the docker container, as usual.
 You must install submodules with `git submodule init` and `git submodule update`. If you wish to udpate to a newer version of the remote, add `--remote` to the second command.
 
-### Existing Deployments
-
-The first time you run terraform for a deployment, you will need to run `terraform init` to install all of the various modules.
-Once that succeeds, `terraform plan` and `terraform apply` as usual.
-If you have not modified anything in the `gke` module, you can go a little faster by adding `-target module.taskcluster`.
-
 ### New Deployments
 
 To create a new deployment, make a new directory under `deployments` and create a `main.sh` there.
 See the README in `deployments` for more information.
 Ensure that DPL is distinct from any other deployment, or risk creating chaos!
 
-Once the deployment is defined, run `terraform init` and `terraform apply -target module.gke`.
-You will probably also need to run a `terraform import` command as suggested by the setup script.
+You will also want to create a secrets file in passwordstore, named after your deployment.
+You can copy from another one and change the necessary bits.
+
+Then run `./terraform-runner.sh <your-deployment>`.
+Enter all the necessary stuff.
+In the process, it will tell you to run a `terraform import` command, something like:
+
+```shell
+terraform import aws_dynamodb_table.dynamodb_tfstate_lock $DPL-tfstate
+```
+
+Once that's done, run `terraform init` and `terraform apply -target module.gke`.
 Once that succeeds, proceed with `terraform apply` as for an existing deployment.
 
 This is necessary to set up the GKE environment before trying to create Kubernetes resources.
 Terraform's dependencies are not expressive enough to capture this.
+
+#### Common Issues
+
+If you are not already logged into Azure in your browser, the link provided by `terraform-runner.sh` will not work.
+Instead, follow the link in passwordstore, login, then follow the link provided by `terraform-runner.sh`.
+
+If you are prompted to accept the Googly terms of service, go to `https://console.cloud.google.com` and do so, then run `terraform` again.
+Note that you must be careful to login to the console with your work account -- unlike other Google properties, it is not "sticky".
+Firefox multi-account containers are helpful.
 
 #### DNS/TLS Setup
 
@@ -77,6 +97,12 @@ However, *https* may take some time to start working (and https is technically r
 The cert-manager service is operating in the background to set up a certificate with LetsEncrypt, and once it does so, https URLs will work and http URLs will redirect to https.
 
 Your deployment is ready to go!
+
+### Existing Deployments
+
+The first time you run terraform for a deployment, you will need to run `terraform init` to install all of the various modules.
+Once that succeeds, `terraform plan` and `terraform apply` as usual.
+If you have not modified anything in the `gke` module, you can go a little faster by adding `-target module.taskcluster`.
 
 ## Terraform-runner Docker Build
 

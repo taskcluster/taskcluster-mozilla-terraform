@@ -17,8 +17,6 @@ module "taskcluster" {
   irc_real_name         = "${var.irc_real_name}"
   azure_region          = "${var.azure_region}"
   root_url              = "${var.root_url}"
-  acme_challenge_key    = "${var.acme_challenge_key}"
-  acme_challenge_value  = "${var.acme_challenge_value}"
   rabbitmq_hostname     = "${var.rabbitmq_hostname}"
   irc_nick              = "${var.irc_nick}"
   irc_server            = "${var.irc_server}"

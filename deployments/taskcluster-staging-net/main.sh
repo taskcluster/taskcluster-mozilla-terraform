@@ -11,9 +11,6 @@ setup-variables() {
     export TF_VAR_rabbitmq_password="$(get-secret rabbitmq_password)"
     export TF_VAR_rabbitmq_vhost="/"
 
-    export TF_VAR_acme_challenge_key="$(get-secret acme_challenge_key)"
-    export TF_VAR_acme_challenge_value="$(get-secret acme_challenge_value)"
-
     export TF_VAR_root_url="https://taskcluster-staging.net"
 
     export TF_VAR_irc_name="taskcluster|staging"

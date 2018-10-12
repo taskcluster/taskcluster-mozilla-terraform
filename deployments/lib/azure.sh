@@ -8,7 +8,7 @@ setup-azure() {
 
     if ! $ok; then
         msg warning 'Azure login required'
-        msg info "Enter credentials for the Azure account associated with ${DEPLOYMENT}"
+        msg info "Login to the Azure account associated with ${DEPLOYMENT}, then follow the link below"
         az login
     fi
     msg info 'Azure setup complete'
