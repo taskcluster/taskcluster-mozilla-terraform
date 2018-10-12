@@ -2,9 +2,12 @@ FROM golang:1.10.3-stretch
 
 # Install terraform + providers, latest versions,
 # then clean up go source (300M) and GOROOT (500M)
+# Note that terraform build fails on non-fmt'd code, but
+# very often the latest code is not correctly formatted.
 RUN go get github.com/hashicorp/terraform && \
     go get golang.org/x/tools/cmd/stringer && \
     cd $GOPATH/src/github.com/hashicorp/terraform && \
+    make fmt && \
     make dev && \
     go get -u github.com/ericchiang/terraform-provider-k8s && \
     go get -u github.com/taskcluster/terraform-provider-jsone && \
@@ -32,7 +35,11 @@ RUN curl -L https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cl
 ENV PATH="${PATH}:/google-cloud-sdk/bin"
 
 # install some random stuff
-RUN apt-get install -y jq vim nano
+RUN apt-get install -y \
+    jq \
+    vim \
+    nano \
+    less
 
 # set up a non-root user (as a uid unlikely to match anyone's host userid)
 RUN useradd -u 1500 -m tf

@@ -18,6 +18,8 @@ resource "google_container_cluster" "primary" {
   name   = "${var.kubernetes_cluster_name}"
   region = "${var.gcp_region}"
 
+  min_master_version = "1.10"
+
   node_pool = [
     {
       name       = "${var.kubernetes_cluster_name}-primary"
