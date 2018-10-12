@@ -11,7 +11,7 @@ setup-variables() {
     export TF_VAR_rabbitmq_password="$(get-secret rabbitmq_password)"
     export TF_VAR_rabbitmq_vhost="/"
 
-    export TF_VAR_root_url="https://owlish.imbstack.com/"
+    export TF_VAR_root_url="https://owlish.imbstack.com"
 
     export TF_VAR_irc_name="taskcluster|staging"
     export TF_VAR_irc_nick="taskcluster|staging"
