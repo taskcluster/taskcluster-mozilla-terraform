@@ -4,7 +4,7 @@
 cd $(dirname $(readlink -f "$0"))
 source util/msg.sh
 
-docker_image="docker.io/taskcluster/terraform-runner:latest@sha256:9a9dd5ada128af5fc9bd6864ed12b860876e0422a98cc27a6c5498864df0512f"
+docker_image="docker.io/taskcluster/terraform-runner:latest@sha256:b6e6afcd61f031c67d82281d14a58fbf6dab9409c4dca4401e93bfefa147e16a"
 deployment="$1"
 
 if [ -z "$deployment" ] || [ ! -f terraform-runner.sh ]; then
