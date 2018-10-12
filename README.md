@@ -16,12 +16,15 @@ To run terraform, you will need:
 
 ## Usage
 
-First, don't forget to update submodules:
+First, don't forget to update submodules.
+In the root of this repo, run:
 
 ```shell
 git submodule init
 git submodule update
 ```
+
+You'll need to re-run the `update` part when git indicates it's out of date.
 
 Because of the peculiar configuration of terraform used here, the supported way to apply the configuration in the repository is to run terraform in the provided docker image.
 To do so, run
