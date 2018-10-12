@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: certificate-challenge-ingress
+  namespace: ingress-controller
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  tls:
+    # TLS config is a host-level thing, so the nginx controller will
+    # apply this configuration to all paths on this host; this saves
+    # us from having to reference a specific secret in the ingress
+    # defined in the taskcluster-terraform repo
+    - hosts: [{$eval: 'root_url[8:]'}]
+      secretName: taskcluster-ingress-tls-secret
+  rules:
+  - http:
+      paths:
+      # this ingress exists to have paths added to it dynamically by cert-manager,
+      # so it doesn't actually serve anything, but the schema requires at least one
+      # rule.  Since we don't provide `host` here, this will never match, so it
+      # doesn't matter that the backend doesn't exist
+      - path: /not-used
+        backend:
+          serviceName: default-http-backend
+          servicePort: 80
