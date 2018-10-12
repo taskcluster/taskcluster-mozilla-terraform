@@ -39,7 +39,9 @@ Most of the credentials (including these secrets) are cached from run to run in 
 
 *CAUTION*: that docker volume thus contains powerful cleartext secrets!
 Docker volumes are readable by anyone with permission to execute `docker run` on a host.
-**DO NOT RUN THIS TOOL ON A SHARED OR UNTRUSTED SYSTEM**
+**DO NOT RUN THIS TOOL ON A SHARED OR UNTRUSTED SYSTEM**!
+To delete the volume find it in `docker volume ls` and delete it by name with `docker volume rm`.
+You'll need to re-enter all the secret stuff on your next run.
 
 Once setup is complete, the script drops you in a shell at `/repo`.
 That's a bind mount of the repository where you ran `./terraform-runner.sh`.
@@ -48,6 +50,15 @@ You can also use the `kubectl`, `gcloud`, `az`, and `aws` tools from this enviro
 
 All other work (editing files, `git` operations, etc.) should occur outside of the docker container, as usual.
 You must install submodules with `git submodule init` and `git submodule update`. If you wish to udpate to a newer version of the remote, add `--remote` to the second command.
+
+### Changing Settings
+
+If you change settings in a deployment configuration file, simply exit the Docker container and re-start it.
+Similarly, if your cloud credentials expire, exit the container and re-start it.
+
+If you need to change secrets, you can edit the file within the docker container at `~/secrets.sh`.
+
+If you need to change credentials (perhaps you signed into the wrong AWS account?), follow the `docker volume rm` steps above.
 
 ### New Deployments
 
@@ -80,6 +91,9 @@ Instead, follow the link in passwordstore, login, then follow the link provided 
 If you are prompted to accept the Googly terms of service, go to `https://console.cloud.google.com` and do so, then run `terraform` again.
 Note that you must be careful to login to the console with your work account -- unlike other Google properties, it is not "sticky".
 Firefox multi-account containers are helpful.
+
+If GCP says your project name is already taken, that's a shame -- project ID's are global.
+Set `TF_VAR_gcp_project` to something unique, perhaps by appending `-2` to your deployment name.
 
 #### DNS/TLS Setup
 
