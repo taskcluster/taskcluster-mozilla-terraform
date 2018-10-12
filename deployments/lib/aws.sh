@@ -43,6 +43,7 @@ setup-aws() {
     if [ ! -d ~/.aws ]; then
         msg warning 'AWS is not set up; running `aws configure`..'
         msg info "Enter credentials for the AWS account associated with ${DEPLOYMENT}"
+        msg info "Region and output format can be left at their default."
         aws configure
     fi
     if ! aws s3 ls >/dev/null 2>/dev/null; then
