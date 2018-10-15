@@ -4,7 +4,7 @@ module "taskcluster" {
   azure_region          = "${var.azure_region}"
   root_url              = "${var.root_url}"
   rabbitmq_hostname     = "${var.rabbitmq_hostname}"
-  rabbitmq_vhost        = "${var.rabbitmq_vhost}"
+  rabbitmq_vhost        = "${rabbitmq_vhost.vhost.name}"
   disabled_services     = ["taskcluster-ping"]
   cluster_name          = "${var.cluster_name}"
   notify_ses_arn        = "${var.notify_ses_arn}"

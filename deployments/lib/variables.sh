@@ -20,6 +20,10 @@ setup-common-variables() {
     export TF_VAR_gcp_region="us-east1"
     export TF_VAR_gcp_folder_id="944037250603"
 
+    ## RabbitMQ
+
+    export TF_VAR_rabbitmq_vhost="${DPL}"
+
     ## Kubernetes
 
     export TF_VAR_kubernetes_cluster_name=taskcluster
