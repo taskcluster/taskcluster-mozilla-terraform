@@ -3,6 +3,7 @@ module "taskcluster" {
   prefix                = "${var.dpl}"
   azure_region          = "${var.azure_region}"
   root_url              = "${var.root_url}"
+  root_url_tls_secret   = "taskcluster-ingress-tls-secret"
   rabbitmq_hostname     = "${var.rabbitmq_hostname}"
   rabbitmq_vhost        = "${rabbitmq_vhost.vhost.name}"
   disabled_services     = []
