@@ -7,10 +7,6 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   tls:
-    # TLS config is a host-level thing, so the nginx controller will
-    # apply this configuration to all paths on this host; this saves
-    # us from having to reference a specific secret in the ingress
-    # defined in the taskcluster-terraform repo
     - hosts: [{$eval: 'root_url[8:]'}]
       secretName: taskcluster-ingress-tls-secret
   rules:
