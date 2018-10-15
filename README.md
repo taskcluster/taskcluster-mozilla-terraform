@@ -69,6 +69,9 @@ To create a new deployment, make a new directory `deployments/<deployment>/` and
 See the README in `deployments` for more information.
 Ensure that DPL is distinct from any other deployment, or risk creating chaos!
 
+You can use whatever rootUrl you would like, but for a dev environment `https://<somename>.taskcluster-dev.net` is recommended.
+The DNS for this zone (as well as for taskcluster-staging.net) is managed in Route53 in the team's staging AWS account.
+
 You will also want to create a secrets file in passwordstore, named after your deployment.
 You can copy from another one and change the necessary bits.
 

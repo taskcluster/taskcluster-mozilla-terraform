@@ -12,7 +12,7 @@ setup-variables() {
 
     export TF_VAR_gcp_project="dustin-dev-2"
 
-    export TF_VAR_root_url="https://tc.r.igoro.us"
+    export TF_VAR_root_url="https://dustin.taskcluster-dev.net"
 
     export TF_VAR_irc_name="taskcluster|dustin"
     export TF_VAR_irc_nick="taskcluster|dustin"
