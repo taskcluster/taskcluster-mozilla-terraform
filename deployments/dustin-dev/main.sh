@@ -1,4 +1,4 @@
-export DPL=owlishdev
+export DPL=dustindev
 
 setup-variables() {
     setup-common-variables
@@ -10,12 +10,14 @@ setup-variables() {
     export TF_VAR_rabbitmq_username="pvigqwpo"
     export TF_VAR_rabbitmq_password="$(get-secret rabbitmq_password)"
 
-    export TF_VAR_root_url="https://owlish.imbstack.com"
+    export TF_VAR_gcp_project="dustin-dev-2"
 
-    export TF_VAR_irc_name="taskcluster|staging"
-    export TF_VAR_irc_nick="taskcluster|staging"
+    export TF_VAR_root_url="https://tc.r.igoro.us"
+
+    export TF_VAR_irc_name="taskcluster|dustin"
+    export TF_VAR_irc_nick="taskcluster|dustin"
     export TF_VAR_irc_port=6697
-    export TF_VAR_irc_real_name="Taskcluster Staging"
+    export TF_VAR_irc_real_name="Taskcluster (Dustin)"
     export TF_VAR_irc_server="irc.mozilla.org"
     export TF_VAR_irc_password="$(get-secret irc_password)"
 

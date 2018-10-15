@@ -95,6 +95,17 @@ If you are prompted to accept the Googly terms of service, go to `https://consol
 Note that you must be careful to login to the console with your work account -- unlike other Google properties, it is not "sticky".
 Firefox multi-account containers are helpful.
 
+Sometimes Google's APIs time out.
+If that happens, just re-run `terraform apply`.
+
+You might also get an error about billing states -- ".. while in an inactive billing state".
+Just re-try running it a few times, as it seems to settle after a few tens of minutes.
+If you get an error about the project already existing after this settles, try running
+```
+terraform import module.gke.google_container_cluster.primary us-east1/taskcluster
+```
+and then re-running apply.
+
 If GCP says your project name is already taken, that's a shame -- project ID's are global.
 Set `TF_VAR_gcp_project` to something unique, perhaps by appending `-2` to your deployment name.
 
