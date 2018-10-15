@@ -65,7 +65,7 @@ If you need to change credentials (perhaps you signed into the wrong AWS account
 
 ### New Deployments
 
-To create a new deployment, make a new directory under `deployments` and create a `main.sh` there.
+To create a new deployment, make a new directory `deployments/<deployment>/` and create a `main.sh` in it.
 See the README in `deployments` for more information.
 Ensure that DPL is distinct from any other deployment, or risk creating chaos!
 
