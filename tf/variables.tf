@@ -91,9 +91,9 @@ variable "rabbitmq_vhost" {
   description = "rabbitmq vhost"
 }
 
-variable "rabbitmq_username" {
+variable "rabbitmq_admin_username" {
   type        = "string"
-  description = "rabbitmq username"
+  description = "rabbitmq username for an administrative user"
 }
 
 variable "rabbitmq_password" {
