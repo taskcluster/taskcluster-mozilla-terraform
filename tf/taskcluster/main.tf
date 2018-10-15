@@ -5,7 +5,7 @@ module "taskcluster" {
   root_url              = "${var.root_url}"
   rabbitmq_hostname     = "${var.rabbitmq_hostname}"
   rabbitmq_vhost        = "${rabbitmq_vhost.vhost.name}"
-  disabled_services     = ["taskcluster-ping"]
+  disabled_services     = []
   cluster_name          = "${var.cluster_name}"
   notify_ses_arn        = "${var.notify_ses_arn}"
   irc_name              = "${var.irc_name}"
