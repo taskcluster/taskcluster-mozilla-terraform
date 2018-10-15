@@ -31,6 +31,8 @@ if [ -z "${DPL} " ]; then
     exit 1
 fi
 
+PS1="${DPL}:\w\$ "
+
 setup() {
     setup-secrets
     setup-variables  # defined by the deployment
