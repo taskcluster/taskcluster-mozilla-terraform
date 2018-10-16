@@ -21,6 +21,6 @@ provider "k8s" {}
 provider "rabbitmq" {
   version  = "~> 1.0"
   endpoint = "https://${var.rabbitmq_hostname}"
-  username = "${var.rabbitmq_username}"
+  username = "${var.rabbitmq_admin_username}"
   password = "${var.rabbitmq_password}"
 }
