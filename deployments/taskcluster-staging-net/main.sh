@@ -7,7 +7,7 @@ setup-variables() {
     export TF_VAR_notify_ses_arn="arn:aws:ses:us-east-1:710952102342:identity/taskcluster-staging-noreply@mozilla.com"
 
     export TF_VAR_rabbitmq_hostname="hip-macaw.rmq.cloudamqp.com"
-    export TF_VAR_rabbitmq_username="pvigqwpo"
+    export TF_VAR_rabbitmq_admin_username="pvigqwpo"
     export TF_VAR_rabbitmq_password="$(get-secret rabbitmq_password)"
     export TF_VAR_rabbitmq_vhost="/"
 
