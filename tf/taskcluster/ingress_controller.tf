@@ -155,3 +155,12 @@ resource "k8s_manifest" "ingress_controller_certificate" {
     "k8s_manifest.ingress_controller_namespace",
   ]
 }
+
+data "kubernetes_service" "deployment_endpoint" {
+  metadata {
+    name      = "deployment-endpoint"
+    namespace = "ingress-controller"
+  }
+
+  depends_on = ["k8s_manifest.deployment_endpoint"]
+}

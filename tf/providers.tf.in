@@ -18,6 +18,10 @@ provider "google" {
 
 provider "k8s" {}
 
+provider "kubernetes" {
+  version => "~> 1.2"
+}
+
 provider "rabbitmq" {
   version  = "~> 1.0"
   endpoint = "https://${var.rabbitmq_hostname}"

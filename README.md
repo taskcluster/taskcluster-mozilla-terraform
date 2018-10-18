@@ -114,14 +114,10 @@ Set `TF_VAR_gcp_project` to something unique, perhaps by appending `-2` to your 
 
 #### DNS/TLS Setup
 
-Once everything is applied, run
-
-```shell
-kubectl get service --namespace ingress-controller deployment-endpoint
-```
-
-the "EXTERNAL-IP" field is the IP of your deployment.
+Once everything is applied, you should see an output named `cluster_ip`.
+Due to the "convergent" nature of Kubernetes, it may take a few minutes before this output appears.
 It's up to you to configure the DNS for your root URL domain name to point to this IP.
+For a `taskcluster-dev.net` subdomain, just add an A record to the Route53 domain in the team's staging AWS account.
 
 Once you do so, you will find that loading the *http* version of your rootUrl will get you some results.
 However, *https* may take some time to start working (and https is technically required, so the cluster won't work correctly until this is done).
