@@ -1,0 +1,26 @@
+version: 1
+policy:
+  allowPullRequests: public
+tasks:
+  - $if: 'tasks_for == "github-pull-request"'
+    then:
+      $if: 'event.action in ["opened", "synchronize", "reopened"]'
+      then:
+        taskId: {$eval: as_slugid("terraform-fmt")}
+        created: {$fromNow: '0 hour'}
+        deadline: {$fromNow: '1 hour'}
+        provisionerId: "aws-provisioner-v1"
+        workerType: "github-worker"
+        payload:
+          maxRunTime: 3600
+          image: "jonatanblue/gitlab-ci-terraform:latest"
+          command:
+            - "/bin/bash"
+            - "-lc"
+            - "git clone ${event.pull_request.head.repo.git_url} repo && cd repo && git checkout ${event.pull_request.head.sha} && terraform fmt -check"
+        metadata:
+          name: "Taskcluster Terraform Tests"
+          description: "Simple checks for validity of terraform module"
+          owner: "taskcluster-maintenance@mozilla.com"
+          source: "https://github.com/taskcluster/taskcluster-mozilla-terraform"
+

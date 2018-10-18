@@ -148,7 +148,8 @@ data "jsone_template" "ingress_controller_certificate" {
 }
 
 resource "k8s_manifest" "ingress_controller_certificate" {
-  content    = "${data.jsone_template.ingress_controller_certificate.rendered}"
+  content = "${data.jsone_template.ingress_controller_certificate.rendered}"
+
   depends_on = [
     "k8s_manifest.cert_manager_clusterissuer_crd",
     "k8s_manifest.ingress_controller_namespace",
