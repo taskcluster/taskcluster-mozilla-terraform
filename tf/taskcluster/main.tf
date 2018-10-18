@@ -1,6 +1,7 @@
 module "taskcluster" {
   source                  = "../../modules/taskcluster-terraform"
   prefix                  = "${var.dpl}"
+  aws_region              = "${var.aws_region}"
   azure_region            = "${var.azure_region}"
   root_url                = "${var.root_url}"
   root_url_tls_secret     = "taskcluster-ingress-tls-secret"
