@@ -40,16 +40,6 @@ variable "rabbitmq_vhost" {
   description = "rabbitmq vhost"
 }
 
-variable "rabbitmq_admin_username" {
-  type        = "string"
-  description = "rabbitmq username for an admin user"
-}
-
-variable "rabbitmq_password" {
-  type        = "string"
-  description = "rabbitmq password"
-}
-
 variable "gcp_project" {
   type        = "string"
   description = "Project in Google Cloud."
