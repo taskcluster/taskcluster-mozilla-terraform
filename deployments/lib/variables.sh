@@ -27,7 +27,8 @@ setup-common-variables() {
     ## Kubernetes
 
     export TF_VAR_kubernetes_cluster_name=taskcluster
-    export TF_VAR_kubernetes_nodes=2  # default
+    export TF_VAR_kubernetes_nodes=1
+    export TF_VAR_kubernetes_node_type=n1-standard-4
 
     ## Mozilla
 
