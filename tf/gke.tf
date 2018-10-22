@@ -11,4 +11,5 @@ module "gke" {
   aws_account             = "${var.aws_account}"
   kubernetes_cluster_name = "${var.kubernetes_cluster_name}"
   kubernetes_nodes        = "${var.kubernetes_nodes}"
+  kubernetes_node_type    = "${var.kubernetes_node_type}"
 }

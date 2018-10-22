@@ -25,8 +25,13 @@ resource "google_container_cluster" "primary" {
       name       = "${var.kubernetes_cluster_name}-primary"
       node_count = "${var.kubernetes_nodes}"
 
+      management {
+        auto_repair  = true
+        auto_upgrade = true
+      }
+
       node_config {
-        machine_type    = "n1-standard-4"                                      # TODO: configurable
+        machine_type    = "${var.kubernetes_node_type}"
         service_account = "${google_service_account.kubernetes_cluster.email}"
 
         oauth_scopes = [

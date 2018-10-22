@@ -58,7 +58,12 @@ variable "kubernetes_cluster_name" {
 
 variable "kubernetes_nodes" {
   type        = "string"
-  description = "Number of kubernetes nodes in the cluster."
+  description = "Number of Kubernetes nodes per zone in the (three-zone) cluster."
+}
+
+variable "kubernetes_node_type" {
+  type        = "string"
+  description = "Type of GCP node to use for Kubernetes node pool"
 }
 
 variable "secops_cloudtrail" {
