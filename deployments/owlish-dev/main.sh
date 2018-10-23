@@ -22,5 +22,5 @@ setup-variables() {
     export TF_VAR_github_integration_id=1069
     export TF_VAR_github_oauth_token="$(get-secret github_oauth_token)"
     export TF_VAR_github_webhook_secret="$(get-secret github_webhook_secret)"
-    export TF_VAR_github_private_pem="$(get-secret taskcluster_staging_key)"
+    export TF_VAR_github_private_pem="$(get-secret github_private_pem)"
 }
