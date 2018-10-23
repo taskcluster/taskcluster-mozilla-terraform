@@ -131,6 +131,11 @@ The first time you run terraform for a deployment, you will need to run `terrafo
 Once that succeeds, `terraform plan` and `terraform apply` as usual.
 If you have not modified anything in the `gke` module, you can go a little faster by adding `-target module.taskcluster`.
 
+## Approved Changes
+
+Review is not required for anything under `deplouments/<deployment>` for your own dev deployment.
+Review never hurts, but for trivial stuff there's no need.
+
 ## Terraform-runner Docker Build
 
 To build the docker image, run `./build.sh`.
