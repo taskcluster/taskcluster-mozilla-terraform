@@ -1,3 +1,10 @@
+clean-variables() {
+    # clear all TF_VAR_* exports
+    for v in `export | grep TF_VAR_ | cut -d' ' -f 3 | cut -d= -f 1`; do
+        eval "unset $v"
+    done
+}
+
 setup-common-variables() {
     # pass DEPLOYMENT and DPL along to Terraform directly
     export TF_VAR_deployment="${DEPLOYMENT}"

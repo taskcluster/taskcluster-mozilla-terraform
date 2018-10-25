@@ -14,6 +14,7 @@ get-secret() {
 }
 
 setup-secrets() {
+    SECRETS=()
     if [ -f "/home/tf/secrets.sh" ]; then
         msg info "Sourcing secrets.sh"
         source "/home/tf/secrets.sh"
