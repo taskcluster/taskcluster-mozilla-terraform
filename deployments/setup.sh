@@ -33,17 +33,20 @@ fi
 
 PS1="${DPL}:\w\$ "
 
+setup-secrets
+clean-variables
+setup-variables  # defined by the deployment
+check-variables
+setup-terraform
+setup-azure
+setup-aws
+setup-gcloud
+setup-kube
+
+# a shell function that will re-run this whole thing (by simply re-sourcing it)
 setup() {
-    setup-secrets
-    setup-variables  # defined by the deployment
-    check-variables
-    setup-terraform
-    setup-azure
-    setup-aws
-    setup-gcloud
-    setup-kube
+    source /repo/deployments/setup.sh
 }
 
-setup
 
 cd /repo/tf

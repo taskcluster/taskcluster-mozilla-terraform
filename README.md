@@ -56,10 +56,11 @@ You must install submodules with `git submodule init` and `git submodule update`
 
 ### Changing Settings
 
-If you change settings in a deployment configuration file, simply exit the Docker container and re-start it.
-Similarly, if your cloud credentials expire, exit the container and re-start it.
+If you change settings in a deployment configuration file, simply run `setup` again in the docker container.
+Similarly, if your cloud credentials expire, run `setup`.
 
 If you need to change secrets, you can edit the file within the docker container at `~/secrets.sh`.
+Be sure to keep this in sync with the file in passwordstore.
 
 If you need to change credentials (perhaps you signed into the wrong AWS account?), follow the `docker volume rm` steps above.
 
