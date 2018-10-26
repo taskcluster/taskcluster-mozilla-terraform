@@ -3,6 +3,7 @@ module "taskcluster" {
   prefix                = "${var.dpl}"
   aws_region            = "${var.aws_region}"
   azure_region          = "${var.azure_region}"
+  gcp_project           = "${var.gcp_project}"
   root_url              = "${var.root_url}"
   root_url_tls_secret   = "taskcluster-ingress-tls-secret"
   rabbitmq_hostname     = "${var.rabbitmq_hostname}"
