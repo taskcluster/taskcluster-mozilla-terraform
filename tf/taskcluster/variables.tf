@@ -104,3 +104,13 @@ variable "github_webhook_secret" {
   type        = "string"
   description = "taskcluster-github webhook secret."
 }
+
+variable "gce_provider_gcp_project" {
+  type        = "string"
+  description = "Project in Google Cloud (used for gce_provider)."
+}
+
+variable "gce_provider_image_name" {
+  type        = "string"
+  description = "Image name to use for workers spawned by gce_provider."
+}
