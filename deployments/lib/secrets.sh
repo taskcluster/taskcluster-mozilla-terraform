@@ -6,10 +6,21 @@ set-secret() {
 }
 
 get-secret() {
+    msg warn "This deployment's main.sh still uses get-secret for $1; update to use set-var-from-secret"
 	if [ ${SECRETS[$1]+_} ]; then
 		echo "${SECRETS[$1]}"
 	else
         msg error "Secret $1 not defined"
+    fi
+}
+
+set-var-from-secret() {
+	if [ ${SECRETS[$1]+_} ]; then
+		eval "export TF_VAR_\"$1=${SECRETS[$1]}\""
+	else
+        msg error "Secret $1 not defined"
+        # note that in this case, the TF_VAR_* is not set, so terraform will
+        # fail when run
     fi
 }
 
