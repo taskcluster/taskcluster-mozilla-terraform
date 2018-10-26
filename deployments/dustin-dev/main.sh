@@ -25,4 +25,6 @@ setup-variables() {
     set-var-from-secret github_oauth_token
     set-var-from-secret github_webhook_secret
     set-var-from-secret github_private_pem
+
+    export TF_VAR_gce_provider_image_name="taskcluster-generic-worker-debian-9-1545065836"
 }

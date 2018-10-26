@@ -143,9 +143,32 @@ The first time you run terraform for a deployment, you will need to run `terrafo
 Once that succeeds, `terraform plan` and `terraform apply` as usual.
 If you have not modified anything in the `gke` module, you can go a little faster by adding `-target module.taskcluster`.
 
+## Workers
+
+In general, deploying workers is out of scope for this repo.
+In order to get some basic task-execution functionality, these terraform scripts run the [gce-provider-concept](https://github.com/imbstack/taskcluster-gce-provider-concept), which starts some GCE instances running workers.
+Without configuration, this service will crash -- and that's fine if you don't need workers.
+
+If you do need workers, you'll need an image (as GCE does not allow public images).
+The `workers` directory in this repository has a packer script to create a GCE worker image that is compatible with the temporary gce_provider service.
+To build an image, switch to the `workers` directory and run `packer build --var gcp_project_id=<your gcp project> generic-worker.json`.
+The build process will take a while (it involves starting an instance, then shutting it down and capturing a snapshot).
+When it is done, you will see something like
+
+```
+--> googlecompute: A disk image was created: taskcluster-generic-worker-debian-9-1545065836
+```
+
+Take that image name and add it to your deployment configuration:
+```
+export TF_VAR_gce_provider_image_name="taskcluster-generic-worker-debian-9-1545065836
+```
+
+The resulting workers have `provisionerId/workerType` `gce-provider/gce-worker-test`.
+
 ## Approved Changes
 
-Review is not required for anything under `deplouments/<deployment>` for your own dev deployment.
+Review is not required for anything under `deployments/<deployment>` for your own dev deployment.
 Review never hurts, but for trivial stuff there's no need.
 
 ## Terraform-runner Docker Build

@@ -1,8 +1,11 @@
 {
+  "variables": {
+      "gcp_project_id": ""
+  },
   "builders": [
     {
       "type": "googlecompute",
-      "project_id": "taskcluster-staging-214020",
+      "project_id": "{{ user `gcp_project_id` }}",
       "source_image_family": "debian-9",
       "ssh_username": "packer",
       "zone": "us-east4-a",
