@@ -34,8 +34,11 @@ To do so, run
 ```
 
 where `<deployment>` is the name of the deployment you want to address (e.g., `taskcluster-staging-net`).
-This will do a fancy dance to set up access to all of the cloud services, and so on.
+If you don't have one yet, skip down to "New Deployments", below.
+
+This script do a fancy dance to set up access to all of the cloud services, and so on.
 Just follow its instructions.
+This is mostly one-time work for each deployment.
 You will need to extract the appropriate secrets file for the deployment from the team passwordstore repository, and paste that in when directed to do so.
 
 Most of the credentials (including these secrets) are cached from run to run in a docker volume, limiting the amount of logging-in you will need to do.
@@ -78,7 +81,10 @@ You can copy from another one and change the necessary bits.
 
 Then run `./terraform-runner.sh <your-deployment>`.
 Enter all the necessary stuff.
-In the process, it will tell you to run a `terraform import` command, something like:
+
+Once you get to a command prompt, run `terraform init` to initialize terraform.
+
+Then run the `terraform import` command that was included in the output, something like:
 
 ```shell
 terraform import aws_dynamodb_table.dynamodb_tfstate_lock $DPL-tfstate
@@ -94,6 +100,11 @@ Terraform's dependencies are not expressive enough to capture this.
 
 If you are not already logged into Azure in your browser, the link provided by `terraform-runner.sh` will not work.
 Instead, follow the link in passwordstore, login, then follow the link provided by `terraform-runner.sh`.
+
+Google's Cloud Console is not compatible with multiple Google accounts (I know, right?).
+To use the console with your Mozilla account only, set up the Firefox Containers add-on to always open `https://console.cloud.google.com`.
+Then, in that same container, visit that URL and sign in to your Mozilla account.
+When prompted to click links in the console to authenticate to gcloud, do so in a tab assigned to this container.
 
 If you are prompted to accept the Googly terms of service, go to `https://console.cloud.google.com` and do so, then run `terraform` again.
 Note that you must be careful to login to the console with your work account -- unlike other Google properties, it is not "sticky".
