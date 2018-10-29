@@ -22,7 +22,7 @@ setup-common-variables() {
 
     ## GCP
 
-    export TF_VAR_gcp_billing_account_id="$(get-secret gcp_billing_account_id)"
+    set-var-from-secret gcp_billing_account_id
     export TF_VAR_gcp_project="${DEPLOYMENT}"
     export TF_VAR_gcp_region="us-east1"
     export TF_VAR_gcp_folder_id="944037250603"
