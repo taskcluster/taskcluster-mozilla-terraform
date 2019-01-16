@@ -1,4 +1,4 @@
-# From https://github.com/jetstack/cert-manager/blob/v0.5.0/contrib/manifests/cert-manager/with-rbac.yaml
+# From https://github.com/jetstack/cert-manager/blob/v0.5.2/contrib/manifests/cert-manager/with-rbac.yaml
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
@@ -6,7 +6,7 @@ metadata:
   namespace: "cert-manager"
   labels:
     app: cert-manager
-    chart: cert-manager-v0.5.0
+    chart: cert-manager-v0.5.2
     release: cert-manager
     heritage: Tiller
 spec:
@@ -25,7 +25,7 @@ spec:
       serviceAccountName: cert-manager
       containers:
         - name: cert-manager
-          image: "quay.io/jetstack/cert-manager-controller:v0.5.0"
+          image: "quay.io/jetstack/cert-manager-controller:v0.5.2"
           imagePullPolicy: IfNotPresent
           args:
           - --cluster-resource-namespace=$(POD_NAMESPACE)
