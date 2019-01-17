@@ -65,8 +65,12 @@ data "jsone_template" "role_binding" {
 }
 
 resource "k8s_manifest" "role_binding" {
-  content    = "${data.jsone_template.role_binding.rendered}"
-  depends_on = ["k8s_manifest.ingress_controller_namespace"]
+  content = "${data.jsone_template.role_binding.rendered}"
+
+  depends_on = [
+    "k8s_manifest.ingress_controller_namespace",
+    "k8s_manifest.role",
+  ]
 }
 
 data "jsone_template" "clusterrole_binding" {
