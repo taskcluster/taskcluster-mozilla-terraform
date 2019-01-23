@@ -1,0 +1,3 @@
+[submodule "taskcluster"]
+	path = modules
+	url = git@github.com:taskcluster/taskcluster.git
