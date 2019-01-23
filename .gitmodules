@@ -1,3 +1,0 @@
-[submodule "modules/taskcluster-terraform"]
-	path = modules/taskcluster-terraform
-	url = https://github.com/taskcluster/taskcluster-terraform
