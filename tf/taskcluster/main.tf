@@ -1,5 +1,5 @@
 module "taskcluster" {
-  source                   = "../../modules/taskcluster-terraform"
+  source                   = "../../modules/infrastructure/terraform"
   prefix                   = "${var.dpl}"
   aws_region               = "${var.aws_region}"
   azure_region             = "${var.azure_region}"
