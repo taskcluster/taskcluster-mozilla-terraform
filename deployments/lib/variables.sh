@@ -27,6 +27,8 @@ setup-common-variables() {
     export TF_VAR_gcp_region="us-east1"
     export TF_VAR_gcp_folder_id="944037250603"
 
+    export TF_VAR_gce_provider_image_name="none"
+
     ## RabbitMQ
 
     export TF_VAR_rabbitmq_vhost="${DPL}"
