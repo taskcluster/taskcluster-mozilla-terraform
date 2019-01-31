@@ -68,6 +68,11 @@ resource "google_container_cluster" "primary" {
   provisioner "local-exec" {
     command = "gcloud container clusters get-credentials ${var.kubernetes_cluster_name} --project ${google_project.project.id} --region ${var.gcp_region}"
   }
+
+  // enable "native VPC" / "alias IPs"
+  ip_allocation_policy {
+    create_subnetwork = true
+  }
 }
 
 resource "k8s_manifest" "admin_bindings" {
