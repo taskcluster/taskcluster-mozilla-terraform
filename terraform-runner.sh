@@ -7,7 +7,7 @@ if [ ! -f util/msg.sh ]; then
 fi
 source util/msg.sh
 
-docker_image="docker.io/taskcluster/terraform-runner:latest@sha256:4256863f86b7ee68cad3c1dd727eedf8950dca3b4d62cedda870e87fcb3bd966"
+docker_image="docker.io/taskcluster/terraform-runner:latest@sha256:e204d707334763b18c2b694d4d63b9914b02e4138be5b96aea98000dfc382236"
 deployment="$1"
 
 if [ -z "$deployment" ] || [ ! -f terraform-runner.sh ]; then
