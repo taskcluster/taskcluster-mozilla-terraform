@@ -19,8 +19,7 @@ setup-variables() {
     export TF_VAR_irc_server="irc.mozilla.org"
     set-var-from-secret irc_password
 
-    export TF_VAR_github_integration_id=1270
-    set-var-from-secret github_oauth_token
+    export TF_VAR_github_app_id=1270
     set-var-from-secret github_webhook_secret
     set-var-from-secret github_private_pem
 
