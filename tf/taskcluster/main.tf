@@ -19,7 +19,6 @@ module "taskcluster" {
   github_app_id            = "${var.github_app_id}"
   github_private_pem       = "${var.github_private_pem}"
   github_webhook_secret    = "${var.github_webhook_secret}"
-  audit_log_stream         = "${aws_kinesis_stream.taskcluster_audit_logs.arn}"
   gce_provider_gcp_project = "${var.gce_provider_gcp_project}"
   gce_provider_image_name  = "${var.gce_provider_image_name}"
 }
