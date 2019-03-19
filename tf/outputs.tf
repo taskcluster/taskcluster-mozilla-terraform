@@ -3,6 +3,11 @@ output "root_access_token" {
   value     = "${module.taskcluster.root_access_token}"
 }
 
+output "websocktunnel_secret" {
+  sensitive = true
+  value     = "${module.taskcluster.websocktunnel_secret}"
+}
+
 output "cluster_ip" {
   value = "${module.taskcluster.cluster_ip}"
 }
