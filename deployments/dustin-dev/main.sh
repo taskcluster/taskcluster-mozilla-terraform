@@ -26,4 +26,12 @@ setup-variables() {
     set-var-from-secret github_private_pem
 
     export TF_VAR_gce_provider_image_name="taskcluster-generic-worker-debian-9-1545065836"
+
+    set-var-from-secret web_server_mozilla_auth0_domain
+    set-var-from-secret web_server_mozilla_auth0_client_id
+    set-var-from-secret web_server_mozilla_auth0_client_secret
+    set-var-from-secret web_server_mozilla_auth0_audience
+    set-var-from-secret web_server_mozilla_auth0_scope
+    set-var-from-secret web_server_github_client_id
+    set-var-from-secret web_server_github_client_secret
 }
