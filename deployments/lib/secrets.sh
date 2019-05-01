@@ -16,7 +16,8 @@ get-secret() {
 
 set-var-from-secret() {
 	if [ ${SECRETS[$1]+_} ]; then
-		eval "export TF_VAR_\"$1=${SECRETS[$1]}\""
+		# quoting in shell is *awesome*!
+		eval "$(python -c "import pipes, sys; print('export ' + pipes.quote(sys.argv[1]))" "TF_VAR_$1=${SECRETS[$1]}")"
 	else
         msg error "Secret $1 not defined"
         # note that in this case, the TF_VAR_* is not set, so terraform will
