@@ -47,6 +47,8 @@ setup-common-variables() {
     ## Taskcluster
 
     export TF_VAR_cluster_name="${DEPLOYMENT}"
+    export TF_VAR_ui_login_strategies="{}"
+    export TF_VAR_ui_login_strategy_names=""
 }
 
 check-variables() {
