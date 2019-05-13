@@ -23,4 +23,5 @@ module "taskcluster" {
   gce_provider_image_name  = "${var.gce_provider_image_name}"
   ui_login_strategies      = "${var.ui_login_strategies}"
   ui_login_strategy_names  = "${var.ui_login_strategy_names}"
+  worker_manager_providers = "${jsonencode(local.wm_providers)}"
 }

@@ -18,6 +18,11 @@
   "provisioners": [
     {
       "type": "file",
+      "source": "sudoers-extra",
+      "destination": "/tmp/sudoers-extra"
+    },
+    {
+      "type": "file",
       "source": "generic-worker-key.service",
       "destination": "/tmp/generic-worker-key.service"
     },
@@ -25,6 +30,11 @@
       "type": "file",
       "source": "generic-worker.service",
       "destination": "/tmp/generic-worker.service"
+    },
+    {
+      "type": "file",
+      "source": "{{ user `generic_worker_bin_location` }}",
+      "destination": "/tmp/generic-worker-nativeEngine-linux-amd64"
     },
     {
       "type": "shell",

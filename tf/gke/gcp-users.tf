@@ -1,7 +1,6 @@
 locals {
   team_members = [
     "user:dmitchell@mozilla.com",
-    "user:jford@mozilla.com",
     "user:pmoore@mozilla.com",
     "user:haali@mozilla.com",
     "user:wcosta@mozilla.com",
