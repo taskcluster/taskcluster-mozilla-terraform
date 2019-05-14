@@ -28,5 +28,5 @@ setup-variables() {
     export TF_VAR_gce_provider_image_name="taskcluster-generic-worker-debian-9-1545065836"
 
     set-var-from-secret ui_login_strategies
-    export TF_VAR_ui_login_strategy_names="$(echo "${SECRETS[ui_login_strategies]}" | jq -rj 'keys[]')"
+    export TF_VAR_ui_login_strategy_names="$(echo "${SECRETS[ui_login_strategies]}" | jq -r 'keys | join(" ")')"
 }
