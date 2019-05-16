@@ -18,7 +18,7 @@ resource "google_container_cluster" "primary" {
   name   = "${var.kubernetes_cluster_name}"
   region = "${var.gcp_region}"
 
-  min_master_version = "1.10"
+  min_master_version = "1.12"
 
   node_pool = [
     {
@@ -33,6 +33,10 @@ resource "google_container_cluster" "primary" {
       node_config {
         machine_type    = "${var.kubernetes_node_type}"
         service_account = "${google_service_account.kubernetes_cluster.email}"
+
+        metadata {
+          disable-legacy-endpoints = "true"
+        }
 
         oauth_scopes = [
           "https://www.googleapis.com/auth/compute",
