@@ -39,6 +39,11 @@ setup-common-variables() {
     export TF_VAR_kubernetes_nodes=1
     export TF_VAR_kubernetes_node_type=n1-standard-4
 
+    ## Mozilla
+
+    export TF_VAR_secops_cloudtrail="0"
+    export TF_VAR_secops_cloudtrail_bucket=""
+
     ## Taskcluster
 
     export TF_VAR_cluster_name="${DEPLOYMENT}"
