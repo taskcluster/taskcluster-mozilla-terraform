@@ -31,7 +31,7 @@ resource "google_service_account_key" "wm-key" {
 locals {
   wm_providers = {
     google = {
-      implementation      = "google"
+      providerType        = "google"
       project             = "${var.gcp_project}"
       instancePermissions = ["logging.logEntries.create"]
       creds               = "${google_service_account_key.wm-key.private_key}"
