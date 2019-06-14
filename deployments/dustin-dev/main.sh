@@ -10,7 +10,7 @@ setup-variables() {
     export TF_VAR_rabbitmq_admin_username="pvigqwpo"
     set-var-from-secret rabbitmq_password
 
-    export TF_VAR_gcp_project="dustin-dev-2"
+    export TF_VAR_gcp_project="dustin-dev-3"
 
     export TF_VAR_root_url="https://dustin.taskcluster-dev.net"
 
